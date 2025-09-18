@@ -12,7 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class MeditationPlayerComponent {
   @Input() meditation: any;
-  @Output() close = new EventEmitter<void>();
+  //@Output() close = new EventEmitter<void>();
+  @Output() closed = new EventEmitter<void>();
 
   constructor(private sanitizer: DomSanitizer) {}
 
