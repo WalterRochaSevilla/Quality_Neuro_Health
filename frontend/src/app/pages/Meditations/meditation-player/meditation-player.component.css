@@ -1,95 +1,97 @@
 .player-container {
-    background: #FAFAF9;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 800px;
-    padding: 2rem;
-    position: relative;
-    box-shadow: 0 8px 30px rgba(90, 146, 194, 0.15);
-  }
+  background: #FAFAF9;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(90, 146, 194, 0.15);
+}
 
-  .player-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #E0E0E0;
-    padding-bottom: 1rem;
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #E0E0E0;
+  padding-bottom: 1rem;
+}
+
+.player-header h2 {
+  color: #2A4E6E;
+  font-family: 'Julius Sans One', sans-serif;
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.media-container {
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+video, audio {
+  width: 100%;
+  border-radius: 8px;
+  background: #2A4E6E;
+}
+
+/* Personalización de controles nativos */
+::-webkit-media-controls-panel {
+  background: rgba(90, 146, 194, 0.9) !important;
+  border-radius: 0 0 8px 8px;
+}
+
+::-webkit-media-controls-play-button,
+::-webkit-media-controls-mute-button {
+  filter: invert(1);
+}
+
+.meditation-info {
+  background: rgba(127, 182, 133, 0.1);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+.meditation-info p {
+  color: #2A4E6E;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.meditation-info strong {
+  color: #5A8F6E;
+}
+
+/* Botón de cerrar personalizado */
+button[mat-icon-button] {
+  color: #e74c3c !important;
+  transition: transform 0.3s ease;
+}
+
+button[mat-icon-button]:hover {
+  transform: rotate(90deg);
+  cursor: pointer !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .player-container {
+    width: 95%;
+    padding: 1rem;
   }
 
   .player-header h2 {
-    color: #2A4E6E;
-    font-family: 'Julius Sans One', sans-serif;
-    margin: 0;
-    font-size: 1.8rem;
-  }
-
-  .media-container {
-    width: 100%;
-    margin: 1.5rem 0;
+    font-size: 1.4rem;
   }
 
   video, audio {
-    width: 100%;
+    border-radius: 4px;
+  }
+  
+  iframe {
     border-radius: 8px;
-    background: #2A4E6E;
+    border: 2px solid #2A4E6E;
+    height: 250px; 
   }
-
-  /* Personalización de controles nativos */
-  ::-webkit-media-controls-panel {
-    background: rgba(90, 146, 194, 0.9) !important;
-    border-radius: 0 0 8px 8px;
-  }
-
-  ::-webkit-media-controls-play-button,
-  ::-webkit-media-controls-mute-button {
-    filter: invert(1);
-  }
-
-  .meditation-info {
-    background: rgba(127, 182, 133, 0.1);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-top: 1.5rem;
-  }
-
-  .meditation-info p {
-    color: #2A4E6E;
-    margin: 0.5rem 0;
-    line-height: 1.6;
-  }
-
-  .meditation-info strong {
-    color: #5A8F6E;
-  }
-
-  /* Botón de cerrar personalizado */
-  button[mat-icon-button] {
-    color: #e74c3c !important;
-    transition: transform 0.3s ease;
-  }
-
-  button[mat-icon-button]:hover {
-    transform: rotate(90deg);
-    cursor: pointer !important;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .player-container {
-      width: 95%;
-      padding: 1rem;
-    }
-
-    .player-header h2 {
-      font-size: 1.4rem;
-    }
-
-    video, audio {
-      border-radius: 4px;
-    }
-    iframe {
-      border-radius: 8px;
-      border: 2px solid #2A4E6E;
-    }
-  }
+}
