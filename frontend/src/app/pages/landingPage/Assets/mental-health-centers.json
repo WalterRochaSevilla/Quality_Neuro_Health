@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "name": "Instituto Psiquiátrico San Juan De Dios",
+    "type": "hospital",
+    "phone": "+591 44268766",
+    "hours": "L-D: 7:15-12:00",
+    "lat": -17.39146982205143,
+    "lng": -66.23121551616333
+  },
+  {
+    "id": 2,
+    "name": "CRYSME 'Centro de Rehabilitación y Salud Mental'",
+    "type": "mental_health",
+    "phone": "+591 44282743",
+    "hours": "M-S: 15:00-18:00,S: 08:00-17:00",
+    "lat": -17.38226681868031,
+    "lng":  -66.15783204786489
+  },
+  {
+    "id": 3,
+    "name": "Clínica Psicológica",
+    "type": "mental_health",
+    "phone": "+591 74302564",
+    "hours": "L-V: 08:00-21:00, S: 08:00-18:00",
+    "lat": -17.38294176426944,
+    "lng": -66.15293815211335
+  },
+  {
+    "id": 4,
+    "name": "Dra. Mariela Rodríguez Antezana - Psiquiatra",
+    "type": "psychiatrist",
+    "phone": "+591 77926646",
+    "hours": "L-V: 8:00-19:00, S: 8:00-13:00",
+    "lat": -17.385867749315207,
+    "lng": -66.15276106792173
+  },
+  {
+    "id": 5,
+    "name": "Consultorio de Salud Mental Cochabamba Bolivia",
+    "type": "mental_health",
+    "phone": "+591 79329761",
+    "hours": "24/7",
+    "lat": -17.38935455527548,
+    "lng": -66.15230902353994
+  },
+  {
+    "id": 6,
+    "name": "Vitalmente Gabinete Psicológico",
+    "type": "mental_health",
+    "phone": "+591 72727044",
+    "hours": "L-V: 9:00-12:00,L-V: 13:00-20:00 S: 8:00-14:00",
+    "lat": -17.393942703313876,
+    "lng": -66.15856990549065
+  },
+  {
+    "id": 7,
+    "name": "PsicoMed - Centro de Salud Mental",
+    "type": "psychiatrist",
+    "phone": "+591 71496336",
+    "hours": "L-V: 10:00-22:00",
+    "lat": -17.394142716355166,
+    "lng": -66.15015513483814
+  },
+  {
+    "id": 8,
+    "name": "Dra. Patriccia A. Bevilacqua - Psiquiatra - Psiquiatria Cochabamba Bolivia",
+    "type": "psychiatrist",
+    "phone": "+591 71790779",
+    "hours": "L-V: 9:00-12:00,L-V: 16:00-18:00",
+    "lat": -17.370855995812033,
+    "lng": -66.15120944467992
+  },
+  {
+    "id": 9,
+    "name": "Clinica San Juan de Dios, Casa Claudia",
+    "type": "psychiatrist",
+    "phone": "",
+    "hours": "",
+    "lat": -17.404245760096064,
+    "lng": -66.15211887264411
+  }
+]

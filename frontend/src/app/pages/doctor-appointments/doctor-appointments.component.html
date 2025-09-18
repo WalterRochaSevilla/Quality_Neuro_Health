@@ -1,0 +1,96 @@
+<div class="da-container">
+  <header class="header">
+    <a routerLink="/" class="logo-link">
+      <div class="logo">
+        <span class="logo-neuro">NEURO</span>
+        <span class="logo-health">HEALTH</span>
+      </div>
+    </a>
+    <button class="login-button" routerLink="/specialist-dashboard">Mi Panel</button>
+  </header>
+
+  <main class="da-main-content">
+    <h2 class="da-section-title">Gestión de Agenda</h2>
+
+    <!-- RESCHEDULE PROMPT -->
+    <div *ngIf="isRescheduling && reschedulePromptMessage" class="da-reschedule-prompt">
+      <p>{{ reschedulePromptMessage }}</p>
+      <button class="da-action-button da-button-cancel-reschedule" (click)="cancelRescheduleProcess()">Cancelar Reagendamiento</button>
+    </div>
+
+    <p *ngIf="!isRescheduling" class="da-description">
+      Visualiza y gestiona tus citas programadas. Selecciona un día en el calendario para ver los detalles.
+    </p>
+
+    <div class="da-calendar-appointments-wrapper">
+      <div class="da-calendar-container">
+        <div class="da-calendar-header">
+          <button (click)="prevMonth()">‹</button>
+          <span>{{ currentDate | date:'MMMM y' | uppercase }}</span>
+          <button (click)="nextMonth()">›</button>
+        </div>
+
+        <table class="da-calendar">
+          <thead>
+            <tr>
+              <th>L</th>
+              <th>M</th>
+              <th>X</th>
+              <th>J</th>
+              <th>V</th>
+              <th>S</th>
+              <th>D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let week of calendarDays">
+              <td *ngFor="let day of week"
+                  [class.da-day-selected]="isSelected(day?.date)"
+                  [class.da-day-empty]="!day?.isCurrentMonth"
+                  [class.da-day-today]="isToday(day?.date)"
+                  [class.da-day-has-appointments]="day?.hasAppointments"
+                  [class.da-day-rescheduling-active]="isRescheduling"
+                  (click)="day && selectDate(day.date)">
+                <span *ngIf="day">{{ day.dayNumber }}</span>
+                <span *ngIf="day?.hasAppointments" class="da-appointment-indicator"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="da-appointments-list-container" *ngIf="!isRescheduling"> 
+        <h3 class="da-list-title">
+          Citas para {{ selectedDate ? (selectedDate | date:'fullDate':'':'es') : 'el día seleccionado' }}
+        </h3>
+        <div *ngIf="isLoadingAppointments" class="da-loading-appointments">
+          Cargando citas...
+        </div>
+        <div *ngIf="!isLoadingAppointments && appointmentsForSelectedDate.length > 0" class="da-appointments-scroll">
+          <div *ngFor="let app of appointmentsForSelectedDate" class="da-appointment-item">
+            <div class="da-appointment-time">{{ app.hora }}</div>
+            <div class="da-appointment-patient">
+              Paciente: {{ app.pacienteNombre || 'No especificado' }}
+            </div>
+            <div class="da-appointment-status" [ngClass]="'status-' + app.estado.toLowerCase()">
+              Estado: {{ getEstadoText(app.estado) }}
+            </div>
+            <div class="da-appointment-actions" *ngIf="app.estado !== 'cancelada_especialista' && app.estado !== 'cancelada_paciente'">
+              <button class="da-action-button da-button-cancel" (click)="cancelAppointment(app.id)">Cancelar</button>
+              <button class="da-action-button da-button-reschedule" (click)="openRescheduleModal(app)">Reagendar</button>
+            </div>
+            <div *ngIf="app.estado === 'cancelada_especialista' || app.estado === 'cancelada_paciente'" class="da-appointment-cancelled-info">
+              Cita cancelada.
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!isLoadingAppointments && appointmentsForSelectedDate.length === 0 && selectedDate" class="da-no-appointments">
+          No hay citas programadas para este día.
+        </div>
+        <div *ngIf="!isLoadingAppointments && !selectedDate" class="da-no-day-selected">
+          Selecciona un día del calendario para ver las citas.
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

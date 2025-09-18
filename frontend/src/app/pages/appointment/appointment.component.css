@@ -1,0 +1,186 @@
+.appointment-container {
+  font-family: 'Arial', sans-serif;
+  margin-top: 120px; 
+  padding: 2rem 3rem;
+  min-height: calc(100vh - 120px); /* 100% del viewport menos altura del header */
+  box-sizing: border-box;
+  background-color: #FAFAF9;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background-color: #5A92C2;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 120px; 
+  box-sizing: border-box;
+}
+.section-title {
+  margin-top: 0;
+  padding-top: 1rem;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  color: #FAFAF9;
+}
+
+.logo-neuro {
+  font-size: 2.5rem;
+  font-weight: bold;
+  letter-spacing: -0.05em;
+}
+
+.logo-health {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+/* appointment.component.css */
+.time-slot {
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.available {
+  background: #7FB685;
+  cursor: pointer;
+}
+
+.available:hover {
+  background: #5A8F6E;
+}
+
+.booked {
+  background: #dc3545; /* Rojo */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.doctor-selection {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 2rem 0;
+}
+
+.selection-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.selection-title {
+  font-size: 1.1rem;
+  color: #2A4E6E;
+  font-weight: 600;
+}
+
+.required-asterisk {
+  color: #dc3545;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.doctor-select {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #5A92C2;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%235A92C2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px auto;
+  transition: all 0.3s ease;
+}
+
+.doctor-select:focus {
+  outline: none;
+  border-color: #7FB685;
+  box-shadow: 0 0 0 3px rgba(127, 182, 133, 0.2);
+}
+
+.selection-warning {
+  color: #dc3545;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.large-warning {
+  font-size: 1.2rem;
+  padding: 1.5rem;
+  background: #fff3cd;
+  border: 2px solid #ffecb5;
+  border-radius: 8px;
+  color: #856404;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.large-warning::before {
+  content: "⚠️";
+  font-size: 1.5rem;
+}
+select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #5A92C2;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+
+
+.no-slots {
+  color: #718096;
+  text-align: center;
+  padding: 2rem;
+}
+
+.confirm-button {
+  background-color: #7FB685;
+  color: #FAFAF9;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.confirm-button:hover {
+  background-color: #5A8F6E;
+}

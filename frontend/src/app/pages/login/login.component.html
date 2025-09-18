@@ -1,0 +1,43 @@
+<div class="login-container">
+  <div class="login-form">
+    <h2>INICIAR SESIÓN</h2>
+    
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <span class="input-icon material-icons">email</span>
+        <input type="email" id="email" [(ngModel)]="email" name="email" required email>
+        <div *ngIf="loginForm.submitted && !email" class="field-error">
+          <span>El email es obligatorio.</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="contrasena">Contraseña:</label>
+        <span class="input-icon material-icons">lock</span>
+        <input type="password" id="contrasena" [(ngModel)]="contrasena" name="contrasena" required>
+        <div *ngIf="loginForm.submitted && !contrasena" class="field-error">
+          <span>La contraseña es obligatoria.</span>
+        </div>
+      </div>
+      
+      <button type="submit" [disabled]="loginForm.invalid">Iniciar sesión</button>
+    </form>
+    
+    <div class="google-login">
+      <button>
+        <span class="material-icons">mail</span>
+        Ingresa con Gmail
+      </button>
+    </div>
+    
+    <div class="sign-up-link">
+      <p>¿Sin cuenta?</p>
+      <a href="/signup" class="sign-up">Regístrate</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<header class="header">
+  <div class="logo" (click)="goToHome()" style="cursor: pointer;">
+    <span class="logo-neuro">NEURO</span>
+    <span class="logo-health">HEALTH</span>
+  </div>
+</header>
+
+<div class="historial-container">
+  <h2 class="section-title">Historial de Pacientes</h2>
+  
+  <!-- Selector de Paciente -->
+  <div class="historial-filters">
+    <div class="filter-group">
+      <select class="filter-select" [(ngModel)]="selectedPatientId" (change)="onPatientSelect(selectedPatientId)">
+        <option value="">Seleccionar paciente</option>
+        <option *ngFor="let patient of patients" [value]="patient.id">{{ patient.name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div *ngIf="selectedPatient" class="historial-filters">
+    <div class="filter-group">
+      <select class="filter-select" (change)="filterByType($event)">
+        <option value="all">Todos los registros</option>
+        <option value="emotion">Emociones</option>
+        <option value="exam">Exámenes</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <select class="filter-select" (change)="filterByMonth($event)">
+        <option value="all">Todos los meses</option>
+        <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+      </select>
+    </div>
+    
+    <button class="login-button" (click)="clearFilters()">Limpiar Filtros</button>
+  </div>
+
+  <div *ngIf="selectedPatient; else noPatientSelected" class="historial-grid">
+    <div *ngIf="filteredEntries.length === 0" class="no-results">
+      No se encontraron registros con los filtros actuales
+    </div>
+
+    <div *ngFor="let entry of filteredEntries">
+      <!-- Tarjeta de Emoción -->
+      <div *ngIf="isEmotion(entry)" class="emotion-card">
+        <div class="entry-date">{{ entry.date | date:'dd/MM/yyyy' }}</div>
+        <h3 class="card-title">{{ entry.emotion }}</h3>
+        <p class="card-description">{{ entry.notes }}</p>
+        <div class="emotion-tags">
+          <span class="tag" *ngFor="let tag of entry.tags">{{ tag }}</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Examen -->
+      <div *ngIf="isExam(entry)" class="exam-card">
+        <div class="entry-date">{{ entry.date | date:'dd/MM/yyyy' }}</div>
+        <h3 class="card-title">{{ entry.examName }}</h3>
+        <p class="card-description">{{ entry.description }}</p>
+        <div class="exam-result">Resultado: {{ entry.result }}</div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noPatientSelected>
+    <div class="no-results">
+      Seleccione un paciente para ver su historial
+    </div>
+  </ng-template>
+</div>

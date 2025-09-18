@@ -1,0 +1,372 @@
+.da-container {
+  font-family: 'Arial', sans-serif;
+  margin-top: 120px; 
+  padding: 2rem 3rem;
+  min-height: calc(100vh - 120px);
+  box-sizing: border-box;
+  background-color: #FAFAF9;
+}
+
+.header { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  background-color: #5A92C2;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 120px;
+  box-sizing: border-box;
+}
+.logo-link {
+  text-decoration: none; 
+  color: inherit;        
+  display: inline-block; 
+}
+.logo { 
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  color: #FAFAF9;
+}
+
+.logo-neuro { 
+  font-size: 2.5rem;
+  font-weight: bold;
+  letter-spacing: -0.05em;
+}
+
+.logo-health {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+.login-button { 
+  background-color: #7FB685;
+  color: #FAFAF9;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.login-button:hover {
+  background-color: #5A8F6E;
+}
+
+.da-main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.da-section-title {
+  color: #2A4E6E;
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+.da-description {
+  text-align: center;
+  color: #5A8F6E;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.da-calendar-appointments-wrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.da-calendar-container {
+  flex: 1 1 500px; 
+  max-width: 600px;
+  background: #FFFFFF; 
+  border-radius: 16px;
+  padding: 25px;
+  color: #2A4E6E; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  align-self: flex-start; 
+}
+.da-reschedule-prompt {
+  background-color: #fff3cd; /* Light yellow */
+  border: 1px solid #ffeeba;
+  color: #856404; /* Dark yellow text */
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+.da-reschedule-prompt p {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+}
+
+.da-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  color: #2A4E6E; 
+}
+
+.da-calendar-header button {
+  background: none;
+  border: none;
+  color: #5A92C2; 
+  font-size: 1.8rem; 
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.da-calendar-header button:hover {
+  background: #E0EAF3; 
+  color: #2A4E6E;
+}
+.da-calendar-header span {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.da-calendar {
+  width: 100%;
+  border-collapse: collapse;
+  color: #333; 
+}
+
+.da-calendar th {
+  padding: 12px 8px;
+  font-weight: 600;
+  color: #5A92C2; 
+  border-bottom: 1px solid #DDE6ED;
+  font-size: 0.9rem;
+}
+
+.da-calendar td {
+  width: 14.28%;
+  height: 50px; 
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #4A5568; 
+}
+.da-calendar td span {
+  z-index: 1;
+  position: relative;
+}
+
+.da-calendar td:not(.da-day-empty):hover {
+  background: #E0EAF3 !important; 
+  color: #2A4E6E !important;
+}
+
+.da-day-selected {
+  background-color: #5A92C2 !important; 
+  color: #FFFFFF !important;
+  font-weight: bold;
+}
+.da-day-selected .da-appointment-indicator {
+    background-color: #FFFFFF !important; 
+}
+
+
+.da-day-today span:not(.da-appointment-indicator) { 
+  background-color: #7FB685; 
+  color: #FFFFFF;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+.da-day-selected.da-day-today span:not(.da-appointment-indicator) {
+    background-color: #FFFFFF; 
+    color: #5A92C2;
+}
+
+
+.da-day-empty {
+  color: #A0AEC0; 
+  cursor: default;
+}
+.da-day-empty:hover {
+  background: none !important;
+}
+
+.da-appointment-indicator {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #7FB685; 
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.da-day-selected .da-appointment-indicator {
+  background-color: #FFFFFF; 
+}
+
+
+/* --- APPOINTMENTS LIST STYLES --- */
+.da-appointments-list-container {
+  flex: 1 1 60%;
+  background: #FFFFFF;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  min-height: 400px; 
+}
+
+.da-list-title {
+  color: #2A4E6E;
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #E0EAF3;
+  padding-bottom: 0.8rem;
+}
+
+.da-loading-appointments,
+.da-no-appointments,
+.da-no-day-selected {
+  text-align: center;
+  color: #718096; 
+  font-size: 1.1rem;
+  padding: 3rem 1rem;
+}
+
+.da-appointments-scroll {
+  max-height: 500px; 
+  overflow-y: auto;
+  padding-right: 10px; 
+}
+
+.da-appointment-item {
+  background-color: #F7FAFC;
+  border: 1px solid #E2E8F0;
+  border-left: 5px solid #5A92C2; 
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.3s ease;
+}
+.da-appointment-item:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+}
+
+.da-appointment-time {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2A4E6E;
+  margin-bottom: 0.3rem;
+}
+
+.da-appointment-patient {
+  font-size: 1rem;
+  color: #4A5568;
+  margin-bottom: 0.3rem;
+}
+
+.da-appointment-status {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.status-confirmada { background-color: #C6F6D5; color: #2F855A; border-left: 3px solid #38A169;}
+.status-pendiente_confirmacion_paciente { background-color: #FFF5C0; color: #975A16; border-left: 3px solid #D69E2E;}
+.status-pendiente_confirmacion_especialista { background-color: #BEE3F8; color: #2C5282; border-left: 3px solid #3182CE;}
+.status-cancelada_paciente, .status-cancelada_especialista { background-color: #FED7D7; color: #9B2C2C; border-left: 3px solid #E53E3E;}
+.status-reagendada { background-color: #E9D8FD; color: #6B46C1; border-left: 3px solid #805AD5;}
+
+
+.da-appointment-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.da-action-button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+  color: white;
+}
+
+.da-button-cancel { background-color: #E53E3E; } /* Red */
+.da-button-cancel:hover { background-color: #C53030; }
+
+.da-button-reschedule { background-color: #DD6B20; } /* Orange */
+.da-button-reschedule:hover { background-color: #C05621; }
+
+.da-button-confirm { background-color: #38A169; } /* Green */
+.da-button-confirm:hover { background-color: #2F855A; }
+
+.da-appointment-cancelled-info {
+    color: #C53030;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .da-calendar-appointments-wrapper {
+    flex-direction: column;
+  }
+  .da-calendar-container {
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
+  .da-appointments-list-container {
+    width: 100%;
+  }
+  .da-container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+    height: 100px; 
+  }
+  .da-container {
+    margin-top: 100px; 
+  }
+  .logo-neuro { font-size: 2rem; }
+  .logo-health { font-size: 1.6rem; }
+  .da-section-title { font-size: 1.8rem; }
+  .da-description { font-size: 1rem; }
+  .da-calendar td { height: 40px; }
+  .da-list-title { font-size: 1.3rem; }
+}

@@ -1,0 +1,58 @@
+[
+    {
+      "id": 1,
+      "title": "Relajación Profunda",
+      "description": "Meditación guiada para aliviar el estrés y la ansiedad",
+      "duration": "10:33 min",
+      "type": "audio",
+      "url": "meditations-assets/audios/armonia.mp3"
+    },
+    {
+      "id": 2,
+      "title": "Yoga Nidra",
+      "description": "Práctica de sueño consciente para renovar energía",
+      "duration": "10:26 min",
+      "type": "audio",
+      "url": "meditations-assets/audios/respira.mp3"
+    },
+    {
+      "id": 3,
+      "type": "youtube",
+      "url": "https://www.youtube.com/watch?v=IShkpOm63gg",
+      "title": "Meditación para Principiantes *6 Minutos*",
+      "description": "Una meditación guiada para principiantes. Cómo meditar por primera vez.",
+      "duration": "06:23"
+    },
+    {
+      "id": 4,
+      "type": "youtube",
+      "url": "https://www.youtube.com/watch?v=aBsnQjJ2_Nk",
+      "title": "15 minutos mágicos para eliminar ANSIEDAD y EMOCIONES NEGATIVAS - Meditación Guiada",
+      "description": "En esta meditación guiada para la ansiedad y las emociones negativas vamos a realizar 15 minutos mágicos que te aportarán paz y calma mental además de eliminar el estrés, la ansiedad y los pensamientos negativos.",
+      "duration": "15:23"
+    },
+    {
+      "id": 5,
+      "type": "youtube",
+      "url": "https://www.youtube.com/watch?v=3oCC4NDgYrY",
+      "title": "Meditación para principiantes (12 minutos)",
+      "description": "Un ejercicio de meditación de atención plena (mindfulness) para manifestar, tranquilizar la mente y mejorar el estado de ánimo y la concentración.",
+      "duration": "12:19"
+    },
+    {
+      "id": 6,
+      "type": "youtube",
+      "url": "https://www.youtube.com/watch?v=_lOpSbsm9y4",
+      "title": "5 minutos mágicos para Calmar el Sistema Nervioso - Meditación Guiada",
+      "description": "En este video te guiaré a través de una meditación de 5 minutos diseñada para ayudarte a liberar emociones negativas, reducir la ansiedad y aliviar el estrés.",
+      "duration": "05:53"
+    },
+    {
+      "id": 7,
+      "type": "youtube",
+      "url": "https://www.youtube.com/watch?v=-L0A-bU-Kio",
+      "title": "Meditación guiada para un DÍA POSITIVO | Meditación 10 minutos Gabriela Litschi",
+      "description": "La meditación permite a tu consciencia reconocer que no eres la suma de tus pensamientos, y que solo una vez que serenes tus pensamientos, podrás reconocer y experimentar tu YO verdadero.",
+      "duration": "10:00"
+    }
+  ]

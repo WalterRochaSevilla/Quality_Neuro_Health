@@ -1,0 +1,23 @@
+<div class="post-container">
+  <div class="post-header">
+    <h1>{{post.title}}</h1>
+    <span class="author">&#64;{{post.author}}</span>
+    <span class="date">{{post.date | date:'mediumDate'}}</span>
+  </div>
+
+  <div class="post-content">
+    {{post.content}}
+  </div>
+
+  <div class="comments-section">
+    <h3>Comentarios ({{comments.length}})</h3>
+
+    <div class="comment" *ngFor="let comment of comments">
+      <p class="comment-text">{{comment.text}}</p>
+      <span class="comment-author">- {{comment.user}}</span>
+    </div>
+
+    <textarea [(ngModel)]="newComment" placeholder="Escribe tu comentario..."></textarea>
+    <button (click)="addComment()">Comentar</button>
+  </div>
+</div>

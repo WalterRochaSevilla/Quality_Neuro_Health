@@ -1,0 +1,128 @@
+.dialog-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+  }
+  mat-error {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  mat-dialog-title {
+    color: #2A4E6E;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #E0E0E0;
+    padding-bottom: 1rem;
+  }
+  
+  mat-dialog-title {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #E0E0E0;
+    padding-bottom: 1rem;
+  }
+  
+  /* Fondo blanco perla para el select */
+  .mat-mdc-select-panel {
+    background: #FFFBF5 !important; /* Blanco perla */
+    border: 1px solid #E0E0E0 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+  }
+  
+  .mat-mdc-option {
+    background: #FFFBF5 !important;
+    &:hover {
+      background: #F5F0E6 !important; /* Tonos más oscuros para hover */
+    }
+  }
+  
+  .mat-mdc-form-field {
+    --mdc-outlined-text-field-outline-color: #E0E0E0;
+    --mdc-outlined-text-field-hover-outline-color: #5A92C2;
+    --mdc-outlined-text-field-focus-outline-color: #2A4E6E;
+  }
+  
+  .mat-mdc-text-field-wrapper {
+    border-radius: 4px !important;
+    background-color: #FFFBF5 !important; /* Blanco perla para campos */
+  }
+  
+  .mat-mdc-select-arrow {
+    color: #2A4E6E !important; /* Flecha en azul */
+  }
+  
+  /* Ajustes para mantener la coherencia */
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 1.2rem;
+  }
+  
+  input, textarea {
+    font-family: Arial, sans-serif !important;
+    caret-color: #2A4E6E; /* Cursor en azul */
+  }
+  
+  mat-error {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Botones manteniendo el estilo anterior */
+  mat-dialog-actions {
+    padding: 1.5rem 0 0 0;
+    gap: 1rem;
+  }
+  
+  button[mat-raised-button] {
+    background-color: #5A92C2 !important;
+    color: white !important;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-family: 'Julius Sans One', sans-serif;
+  }
+  
+  button[mat-raised-button]:hover {
+    background-color: #2A4E6E !important;
+  }
+  
+  button[mat-button] {
+    color: #5A92C2 !important;
+    font-family: 'Julius Sans One', sans-serif;
+    transition: color 0.3s ease;
+  }
+  
+  button[mat-button]:hover {
+    color: #2A4E6E !important;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .dialog-container {
+      padding: 1.5rem;
+      max-width: 90%;
+    }
+    
+    mat-dialog-title {
+      font-size: 1.5rem;
+    }
+    
+    button[mat-raised-button] {
+      padding: 0.6rem 1.5rem;
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+  }

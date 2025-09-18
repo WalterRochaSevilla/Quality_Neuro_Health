@@ -1,0 +1,67 @@
+<div class="appointment-container">
+<header class="header">
+  <div class="logo" (click)="goToHome()" style="cursor: pointer;">
+    <span class="logo-neuro">NEURO</span>
+    <span class="logo-health">HEALTH</span>
+  </div>
+</header>
+
+  <main class="calendar-section">
+    <h2 class="section-title">Agendar Cita con Especialista</h2>
+
+    <div class="doctor-selection">
+      <div class="selection-header">
+        <span class="selection-title">Seleccione especialista</span>
+        <span class="required-asterisk">*</span>
+      </div>
+      
+      <select [(ngModel)]="selectedEspecialista" 
+              class="doctor-select"
+              (change)="onEspecialistaChange()">
+        <option [value]="null" disabled selected>-- Elija un especialista --</option>
+        <option *ngFor="let esp of especialistas" [value]="esp.id">
+          {{ esp.name }}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="selectedEspecialista !== null">
+      <h3>Horarios disponibles para {{ getFormattedDate() }}</h3>
+      
+      <div class="time-slots">
+        <div *ngFor="let slot of availableSlots" 
+             class="time-slot"
+             [class.available]="slot.isAvailable"
+             [class.booked]="!slot.isAvailable"
+             (click)="slot.isAvailable ? selectedHour(slot.time) : null">
+          {{ slot.time }}
+          <span *ngIf="!slot.isAvailable" class="occupied-badge"></span>
+        </div>
+      </div>
+
+      <div *ngIf="availableSlots.length === 0" class="no-slots">
+        No hay horarios disponibles para esta fecha
+      </div>
+    </div>
+
+    <div *ngIf="selectedEspecialista === null" class="large-warning">
+      ⚠️ Por favor seleccione un especialista para ver la disponibilidad
+    </div>
+  </main>
+
+  <div *ngIf="selectedTime && selectedEspecialista" class="appointment-summary">
+    <p>
+      Cita con {{ selectedEspecialistaName }}, el {{ getFormattedDate() }} a las {{ selectedTime }}
+    </p>
+  </div>
+  
+
+  <button 
+  class="confirm-button" 
+  [disabled]="!selectedTime || !selectedEspecialista"
+  (click)="confirmarCita()">
+  Confirmar Cita
+</button>
+
+
+</div>

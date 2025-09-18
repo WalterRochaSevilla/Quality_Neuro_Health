@@ -1,0 +1,95 @@
+<header class="header">
+  <div class="logo" (click)="goToHome()" style="cursor: pointer;">
+    <span class="logo-neuro">NEURO</span>
+    <span class="logo-health">HEALTH</span>
+  </div>
+</header>
+
+<div class="meditations-container">
+
+  <h1 class="section-title">Meditaciones Guiadas</h1>
+
+  <div *ngIf="isadmin" style="text-align: center; margin-bottom: 2rem;">
+    <button mat-raised-button color="accent" (click)="openAddMeditationForm()">
+      <mat-icon>add_circle_outline</mat-icon>
+      Agregar Nueva Meditación
+    </button>
+  </div>
+
+  <div *ngIf="isadmin && showAdminForm" class="admin-form-overlay">
+    <div class="admin-form-container">
+      <h2>{{ isEditing ? 'Editar Meditación' : 'Agregar Nueva Meditación' }}</h2>
+      <form (ngSubmit)="saveMeditation()" #meditationForm="ngForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Título</mat-label>
+          <input matInput [(ngModel)]="currentMeditationForForm.title" name="title" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Descripción</mat-label>
+          <textarea matInput [(ngModel)]="currentMeditationForForm.description" name="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Duración (ej: 10:30 min)</mat-label>
+          <input matInput [(ngModel)]="currentMeditationForForm.duration" name="duration">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Tipo</mat-label>
+          <mat-select [(ngModel)]="currentMeditationForForm.type" name="type" required>
+            <mat-option *ngFor="let type of meditationTypes" [value]="type">
+              {{ type | titlecase }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>URL (ruta al archivo o enlace de YouTube)</mat-label>
+          <input matInput [(ngModel)]="currentMeditationForForm.url" name="url" required>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-stroked-button type="button" (click)="closeAdminForm()">Cancelar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!meditationForm.form.valid">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="meditations-grid" *ngIf="!showAdminForm">
+    <mat-card *ngFor="let meditation of meditations" class="meditation-card">
+      <mat-card-header>
+        <mat-card-title>{{ meditation.title }}</mat-card-title>
+        <mat-card-subtitle>{{ meditation.type | titlecase }} - {{ meditation.duration }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ meditation.description }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="playMeditation(meditation)">
+          <mat-icon>play_circle_filled</mat-icon> Escuchar
+        </button>
+        <button *ngIf="isadmin" mat-icon-button color="accent" (click)="openEditMeditationForm(meditation)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button *ngIf="isadmin" mat-icon-button color="warn" (click)="deleteMeditation(meditation.id!)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div *ngIf="meditations.length === 0 && !showAdminForm && !isLoading" class="empty-state">
+    <mat-icon class="empty-state-icon">sentiment_dissatisfied</mat-icon>
+    <p>No hay meditaciones disponibles en este momento.</p>
+    <p *ngIf="!isadmin">Por favor, vuelve más tarde.</p>
+    <p *ngIf="isadmin">Puedes agregar nuevas meditaciones usando el botón de arriba.</p>
+  </div>
+  
+  <div *ngIf="isLoading" style="text-align: center; margin-top: 2rem;">
+    <mat-spinner></mat-spinner>
+    <p>Cargando meditaciones...</p>
+  </div>
+
+</div>

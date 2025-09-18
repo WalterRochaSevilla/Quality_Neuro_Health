@@ -1,0 +1,89 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <div class="header-top">
+      <h1>Panel de Administración</h1>
+      <button class="logout-button" (click)="logout()">
+        <span class="material-icons">logout</span>
+        Cerrar Sesión
+      </button>
+    </div>
+    <div class="tabs">
+      <button [class.active]="currentView === 'users'" (click)="currentView = 'users'">Usuarios</button>
+      <button [class.active]="currentView === 'appointments'" (click)="currentView = 'appointments'">Citas</button>
+      <button [class.active]="currentView === 'logs'" (click)="currentView = 'logs'">Registro de Actividades</button>
+    </div>
+  </div>
+
+  <div *ngIf="currentView === 'users'" class="users-section">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <!-- <th>Estado</th> -->
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of usuarios">
+          <td>{{ user.id }}</td>
+          <td>{{ user.nombre }} {{ user.apellido }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.rol }}</td>
+          <!-- <td>
+            <span [class.active]="user.activo" [class.inactive]="!user.activo">
+              {{ user.activo ? 'Activo' : 'Bloqueado' }}
+            </span>
+          </td> -->
+          <td class="actions">
+            <!-- <button (click)="toggleUserStatus(user)">
+              {{ user.activo ? 'Bloquear' : 'Activar' }}
+            </button> -->
+            <button class="delete" (click)="deleteUser(user.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gestión de Citas -->
+  <div *ngIf="currentView === 'appointments'" class="appointments-section">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Paciente</th>
+          <th>Especialista</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cita of citas">
+          <td>{{ cita.id }}</td>
+          <td>{{ cita.pacienteNombre }}</td>
+          <td>{{ cita.especialistaNombre }}</td>
+          <td>{{ formatDate(cita.fecha, 'dd/MM/yyyy') }}</td>
+          <td>{{ cita.hora }}</td>
+          <td>{{ cita.estado }}</td>
+          <td>
+            <button class="cancel" (click)="cancelAppointment(cita.id)">Cancelar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Registro de Actividades -->
+  <div *ngIf="currentView === 'logs'" class="logs-section">
+    <div class="log-entry" *ngFor="let log of actividadLog">
+      <div class="log-time">{{ formatDate(log.timestamp, 'dd/MM/yyyy HH:mm') }}</div>
+      <div class="log-action">{{ log.action }}</div>
+      <div class="log-admin">por {{ log.admin }}</div>
+    </div>
+  </div>
+</div>

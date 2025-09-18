@@ -1,0 +1,50 @@
+<div class="landing-container">
+<header class="header">
+  <div class="logo" (click)="goToHome()" style="cursor: pointer;">
+    <span class="logo-neuro">NEURO</span>
+    <span class="logo-health">HEALTH</span>
+  </div>
+</header>
+
+  <main class="community-section">
+    <h2 class="section-title">COMUNIDAD DE APOYO</h2>
+
+    <div class="forum-container">
+      <!-- Filtros -->
+      <div class="filter-bar">
+        <!-- Se itera sobre el array de categorías -->
+        <button
+          *ngFor="let category of categories"
+          class="filter-button"
+          [class.active]="(selectedCategory === category) || (!selectedCategory && category === 'Todos los temas')"
+          (click)="setFilter(category)"
+        >
+          {{ category }}
+        </button>
+        <button
+          class="new-post-button"
+          (click)="openNewPostDialog()">
+          + Nueva publicación
+        </button>
+      </div>
+
+      <!-- Lista de posts -->
+      <div class="posts-grid">
+        <!-- Se utiliza filteredPosts para mostrar únicamente los posts filtrados -->
+        <div class="post-card" *ngFor="let post of filteredPosts; trackBy: trackByPostId">
+          <div class="post-header">
+            <span class="post-category">{{ post.tema }}</span>
+            <span class="post-date">{{ post.fechaPublicacion | date:'longDate' }}</span>
+          </div>
+          <h3 class="post-title">{{ post.titulo }}</h3>
+          <p class="post-preview">{{ post.contenido | truncate:150 }}</p>
+          <div class="post-footer">
+            <span class="post-author">&#64;{{ post.usuario }}</span>
+            <button class="read-more" [routerLink]="['/community', post.id]">Leer más</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- <router-outlet></router-outlet> -->
+</div>

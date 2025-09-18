@@ -1,0 +1,38 @@
+<div class="dialog-container">
+  
+  
+  <mat-dialog-content>
+    <form [formGroup]="postForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="title">
+        <mat-error *ngIf="postForm.get('title')?.invalid">Título es requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="category">
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="postForm.get('category')?.invalid">Selecciona una categoría</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contenido</mat-label>
+        <textarea matInput formControlName="content" rows="6"></textarea>
+        <mat-error *ngIf="postForm.get('content')?.invalid">Contenido es requerido</mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <ng-template #noAuthMessage>
+    <p class="no-auth-message">Inicia sesión para participar del foro.</p>
+  </ng-template>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Publicar</button>
+  </mat-dialog-actions>
+</div>

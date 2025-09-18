@@ -1,0 +1,180 @@
+<div class="landing-container">
+  <header class="header">
+    <div class="logo">
+      <span class="logo-neuro">NEURO</span>
+      <span class="logo-health">HEALTH</span>
+    </div>
+    <button *ngIf="!isLoggedIn" class="login-button" routerLink="/login">Login</button>
+    <button *ngIf="isLoggedIn" class="login-button" (click)="logout()">Logout</button>
+  </header>
+  <ng-container *ngIf="isEspecialista; else vistaPaciente">
+    <!-- VISTA ESPECIALISTA -->
+    <main class="hero-section">
+      <div class="content-overlay">
+        <div class="content-box">
+          <p class="tagline">Herramientas profesionales para tu práctica</p>
+          <h1 class="cta-title">#Tu expertise marca la diferencia: gestiona tus pacientes de forma eficiente</h1>
+          <p class="description">Accede a historiales médicos, agenda citas y realiza seguimientos personalizados. Todo en una plataforma integrada.</p>
+          <button class="cta-button" routerLink="/historials">Ver Pacientes</button>
+        </div>
+      </div>
+    </main>
+
+    <section class="services-section">
+      <h2 class="section-title">Panel de Control</h2>
+      <div class="services-grid">
+        <!-- Tarjeta Agenda -->
+        <div class="service-card">
+          <div class="card-image">
+            <img src="assets/landing-page/citas.jpg" alt="Agenda profesional">
+          </div>
+          <h3 class="card-title">Gestión de Citas</h3>
+          <p class="card-description">
+            Visualiza y organiza tu agenda profesional.
+            Gestiona horarios, disponibilidad y confirmaciones de citas.
+          </p>
+          <button class="explore-button" routerLink="/doctor-appointments">Acceder</button>
+        </div>
+
+        <!-- Tarjeta Pacientes -->
+        <div class="service-card">
+          <div class="card-image">
+            <img src="assets/landing-page/historials.jpg" alt="Gestión de pacientes">
+          </div>
+          <h3 class="card-title">Historiales Clínicos</h3>
+          <p class="card-description">
+            Accede a registros completos de pacientes,
+            notas de sesiones y seguimiento de tratamientos.
+          </p>
+          <button class="explore-button" routerLink="/historials">Explorar</button>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+  <ng-template #vistaPaciente>
+    <main class="hero-section">
+      <div class="content-overlay">
+        <div class="content-box">
+          <p class="tagline">Apoyo emocional a un clic de distancia.</p>
+          <h1 class="cta-title">#Tu mente importa: descubre cómo Neuro Med puede ayudarte hoy.</h1>
+          <p class="description">Registra tus emociones, accede a meditaciones guiadas y recibe apoyo personalizado con inteligencia artificial. Tu bienestar comienza aquí.</p>
+          <button class="cta-button" routerLink="/signup">Comenzar</button>
+        </div>
+      </div>
+    </main>
+
+    <section class="services-section">
+      <h2 class="section-title">Nuestros Servicios</h2>
+
+      <div class="services-grid">
+        <!-- Tarjeta Meditación -->
+        <div class="service-card">
+          <div class="card-image">
+            <img src="assets/landing-page/Meditacion.jpg" alt="Meditación guiada">
+          </div>
+          <h3 class="card-title">Meditación</h3>
+          <p class="card-description">
+            Accede a una biblioteca de ejercicios de respiración y relajación.
+            Elige entre una variedad de meditaciones guiadas en audio adaptadas
+            a tu estado emocional.
+          </p>
+          <button class="explore-button" routerLink="/meditations">Explora</button>
+        </div>
+
+        <!-- Tarjeta Recursos -->
+        <div class="service-card">
+          <div class="card-image">
+            <img src="assets/landing-page/Recursos.jpg" alt="Recursos de bienestar">
+          </div>
+          <h3 class="card-title">Recursos</h3>
+          <p class="card-description">
+            Artículos, videos y herramientas enfocadas en el bienestar mental.
+            Diseñados para apoyarte en tu camino hacia una mejor salud emocional
+            y comprensión.
+          </p>
+          <button class="explore-button" onclick="window.location.href='resources'">Explora</button>
+        </div>
+
+        <!-- Tarjeta Comunidad -->
+        <div class="service-card">
+          <div class="card-image">
+            <img src="assets/landing-page/Comunidad.jpg" alt="Comunidad de apoyo">
+          </div>
+          <h3 class="card-title">Comunidad</h3>
+          <p class="card-description">
+            Únete a nuestra comunidad de apoyo para compartir experiencias,
+            leer testimonios y participar en foros. Conéctate con personas
+            que entienden tu camino.
+          </p>
+          <button class="explore-button" routerLink="/community">Explora</button>
+        </div>
+
+        <!-- TestPsicologico -->
+        <div class="service-card test-card">
+          <div class="card-image">
+            <img src="assets/landing-page/test-psicologico.jpg" alt="Test de personalidad">
+          </div>
+          <h3 class="card-title">Test de Personalidad</h3>
+          <p class="card-description">
+            Descubre tus rasgos de personalidad con nuestro test.
+            Obtén insights sobre tu apertura, responsabilidad, extraversión, amabilidad y estabilidad emocional.
+          </p>
+          <button class="explore-button" routerLink="/bigfive">Realizar Test</button>
+        </div>
+      </div>
+    </section>
+    <!-- SECCIÓN DE MAPA (ÚNICA) -->
+    <section class="map-section" id="map-section">
+      <h2 class="section-title">Centros de Salud Mental Cercanos</h2>
+      <div id="map" class="map-container"></div>
+    </section>
+    <!-- SECCIÓN DE CALENDARIO (ÚNICA) -->
+    <section class="appointment-section" id="appointment-section">
+      <h2 class="section-title">AGENDA TU CITA</h2>
+
+      <p class="appointment-description">
+        Agenda fácilmente tus citas con nuestros especialistas en salud mental utilizando nuestro sistema de reservas simplificado.
+        Conéctate con el experto adecuado cuando te convenga.
+      </p>
+
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <button (click)="prevMonth()">‹</button>
+          <span>{{ currentDate | date:'MMMM y' | uppercase }}</span>
+          <button (click)="nextMonth()">›</button>
+        </div>
+
+        <table class="calendar">
+          <thead>
+            <tr>
+              <th>L</th>
+              <th>M</th>
+              <th>X</th>
+              <th>J</th>
+              <th>V</th>
+              <th>S</th>
+              <th>D</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let week of calendarDays">
+              <td *ngFor="let day of week"
+                  [class.selected]="isSelected(day)"
+                  [class.empty]="day === null"
+                  (click)="selectDate(day)">
+                {{ day !== null ? day : '' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button
+          class="confirm-button"
+          (click)="confirmSelection()"
+          [disabled]="!selectedDate">
+          Confirmar
+        </button>
+      </div>
+    </section>
+  </ng-template>
+  </div>
