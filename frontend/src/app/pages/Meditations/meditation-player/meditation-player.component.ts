@@ -12,14 +12,14 @@ import { CommonModule } from '@angular/common';
 })
 export class MeditationPlayerComponent {
   @Input() meditation: any;
-  @Output() closed = new EventEmitter<void>();
+  @Output() closed = new EventEmitter<void>(); 
 
   constructor(private readonly sanitizer: DomSanitizer) {}
 
   get mediaType(): string {
     return this.meditation.type === 'audio' ? 'audio/mpeg' : 'video/mp4';
   }
-
+//
   getSafeYoutubeUrl(url: string) {
     const videoId = this.extractYoutubeId(url);
     return this.sanitizer.bypassSecurityTrustResourceUrl(
