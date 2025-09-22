@@ -3,29 +3,28 @@ package com.example.backend.service;
 import com.example.backend.model.Emocion;
 import com.example.backend.model.Usuario;
 import com.example.backend.repository.EmocionRepository;
+import com.example.backend.exception.UsuarioNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 @Service
 public class EmocionService {
+
     @Autowired
     private EmocionRepository emocionRepository;
 
     @Autowired
     private UsuarioService usuarioService;
 
-
     public Map<String, Object> escribirEnDiario(String usuarioId, String contenido, String emocion) {
 
         Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);
         if (usuario == null) {
-            throw new RuntimeException("Usuario no encontrado");
+            throw new UsuarioNotFoundException("Usuario con id " + usuarioId + " no encontrado");
         }
-
 
         Emocion diario = emocionRepository.findByUsuario_Id(usuarioId)
                 .orElseGet(() -> {
@@ -42,7 +41,6 @@ public class EmocionService {
         respuesta.put("usuarioId", usuarioId);
         return respuesta;
     }
-
 
     public Map<String, Object> obtenerDiarioCompleto(String usuarioId) {
         Emocion diario = emocionRepository.findByUsuario_Id(usuarioId)
