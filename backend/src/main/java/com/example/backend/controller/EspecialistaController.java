@@ -10,6 +10,8 @@ import com.example.backend.service.CitaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/especialistas")
 public class EspecialistaController {
+
+    private static final Logger logger = LoggerFactory.getLogger(EspecialistaController.class);
 
     @Autowired
     private EspecialistaService especialistaService;
@@ -45,29 +49,33 @@ public class EspecialistaController {
         return ResponseEntity.ok(especialistaService.getHorariosByEspecialistaId(id, fecha));
     }
 
-
     @PutMapping("/{id}/ocupar-hora")
-    public ResponseEntity<Map> ocuparHora(@PathVariable String id, @RequestBody Map<String, String> body) {
+    public ResponseEntity<Map<String, String>> ocuparHora(@PathVariable String id, @RequestBody Map<String, String> body) {
         String hour = body.get("hour");
         String fecha = body.get("fecha");
         String userId = body.get("userId");
-
 
         Usuario usuario = usuarioService.obtenerUsuarioPorId(userId);
         Optional<Especialista> doctor = especialistaRepository.findById(id);
 
         boolean success = especialistaService.addOccupiedHour(id, hour, fecha);
         especialistaService.addPatient(id, userId);
-        System.out.println(doctor.get().getEspecialistaId());
-        citaService.crearCita(userId, doctor.get().getEspecialistaId(), fecha, hour);
+
+        doctor.ifPresent(d -> logger.info("Especialista ID: {}", d.getEspecialistaId()));
+
+        citaService.crearCita(userId, doctor.map(Especialista::getEspecialistaId).orElse(null), fecha, hour);
+
         if (success) {
             try {
-                emailService.sendEmail(usuario.getEmail(),
+                emailService.sendEmail(
+                        usuario.getEmail(),
                         "Cita Confirmada",
-                        "<h1>Hola " + usuario.getNombre() + "!</h1><p>Tu cita con " + doctor.get().getName() + " a las " + hour +
-                                " el día " + fecha + " fue confirmada.</p>");
+                        "<h1>Hola " + usuario.getNombre() + "!</h1><p>Tu cita con "
+                                + doctor.map(Especialista::getName).orElse("el especialista")
+                                + " a las " + hour + " el día " + fecha + " fue confirmada.</p>"
+                );
             } catch (Exception e) {
-                System.err.println("Error al enviar el correo: " + e.getMessage());
+                logger.error("Error al enviar el correo: {}", e.getMessage(), e);
             }
             return ResponseEntity.ok(Map.of("message", "Hora ocupada con éxito"));
         } else {
@@ -79,5 +87,4 @@ public class EspecialistaController {
     public List<Map<String, String>> getPatientsByEspecialistaId(@PathVariable("id") String especialistaId) {
         return especialistaService.getPatientsByEspecialistaId(especialistaId);
     }
-
 }
