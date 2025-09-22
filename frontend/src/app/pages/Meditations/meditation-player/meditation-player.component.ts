@@ -11,16 +11,37 @@ import { SafeUrlPipe } from '../../health-resources/safe-url.pipe';
 })
 export class MeditationPlayerComponent {
   @Input() meditation: any;
-  @Output() playerClosed = new EventEmitter<void>();
+  @Output() closed = new EventEmitter<void>(); 
+
+  constructor(private readonly sanitizer: DomSanitizer) {}
 
   get mediaType(): string {
-    if (this.meditation.type === 'audio') return 'audio/mpeg';
-    if (this.meditation.type === 'video') return 'video/mp4';
-    return '';
+    return this.meditation.type === 'audio' ? 'audio/mpeg' : 'video/mp4';
+  }
+//
+  getSafeYoutubeUrl(url: string) {
+    const videoId = this.extractYoutubeId(url);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.youtube.com/embed/${videoId}?autoplay=1`
+    );
   }
 
-  getSafeUrl(url: string, type: string): string {
-    const pipe = new SafeUrlPipe();
-    return pipe.transform(url, type);
+  // Método para verificar si hay subtítulos disponibles
+  hasSubtitles(): boolean {
+    return !!(this.meditation.subtitles || this.meditation.subtitlesEn);
   }
+
+  // Método para verificar características de accesibilidad
+  hasAccessibilityFeatures(): boolean {
+    return !!(this.meditation.subtitles || 
+              this.meditation.subtitlesEn || 
+              this.meditation.descriptionTrack || 
+              this.meditation.chapters);
+  }
+
+  private extractYoutubeId(url: string): string {
+    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = regExp.exec(url);
+    return match && match[2].length === 11 ? match[2] : '';
+}
 }

@@ -44,15 +44,15 @@ export class MeditationsComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   currentMeditationForForm: Partial<Meditation> = this.getEmptyMeditationForm();
 
-  private authSubscription: Subscription | undefined;
+  private readonly authSubscription: Subscription | undefined;
   private meditationsSubscription: Subscription | undefined;
 
   meditationTypes: Meditation['type'][] = ['audio', 'video', 'youtube'];
 
   constructor(
-    private meditationsService: MeditationsService,
-    private router: Router,
-    private authService: AuthService,
+    private readonly meditationsService: MeditationsService,
+    private readonly router: Router,
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit(): void {
