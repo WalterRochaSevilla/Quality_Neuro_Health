@@ -4,6 +4,7 @@ import com.example.backend.model.Usuario;
 import com.example.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.backend.exception.UsuarioAlreadyExistsException;
 
 import java.util.List;
 import java.time.Instant;
@@ -22,7 +23,7 @@ public class UsuarioService {
 
     public Usuario registrarUsuario(String nombre, String apellido, String email, String contrasena, String rol) {
         if (usuarioRepository.findByEmail(email) != null) {
-            throw new RuntimeException("El correo ya está registrado.");
+            throw new UsuarioAlreadyExistsException("El correo ya está registrado.");
         }
 
         Usuario usuario = new Usuario();

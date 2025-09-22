@@ -93,3 +93,11 @@
   </div>
 
 </div>
+
+<div class="overlay" *ngIf="playerVisible" (click)="closePlayer()"></div>
+
+<app-meditation-player 
+  *ngIf="playerVisible" 
+  [meditation]="selectedMeditation!" 
+  (playerClosed)="closePlayer()">
+</app-meditation-player>

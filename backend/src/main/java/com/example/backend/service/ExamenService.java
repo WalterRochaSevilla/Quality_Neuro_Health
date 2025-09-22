@@ -3,12 +3,11 @@ package com.example.backend.service;
 import com.example.backend.model.Examen;
 import com.example.backend.model.Usuario;
 import com.example.backend.repository.ExamenRepository;
+import com.example.backend.exception.UsuarioNotFoundException; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 @Service
 public class ExamenService {
@@ -18,14 +17,11 @@ public class ExamenService {
     @Autowired
     private UsuarioService usuarioService;
 
-
     public Map<String, Object> aumentarExamen(String usuarioId, String description, String name, String result) {
-
         Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);
         if (usuario == null) {
-            throw new RuntimeException("Usuario no encontrado");
+            throw new UsuarioNotFoundException("Usuario con ID " + usuarioId + " no encontrado");
         }
-
 
         Examen diario = examenRepository.findByUsuario_Id(usuarioId)
                 .orElseGet(() -> {
@@ -43,12 +39,10 @@ public class ExamenService {
         return respuesta;
     }
 
-
     public Map<String, Object> obtenerExamenes(String usuarioId) {
         Examen diario = examenRepository.findByUsuario_Id(usuarioId)
-                .orElseThrow(() -> new RuntimeException("Diario no encontrado"));
+                .orElseThrow(() -> new UsuarioNotFoundException("Exámenes del usuario con ID " + usuarioId + " no encontrados"));
 
-        // Ordenar las entradas por fecha de publicación (más reciente primero)
         List<Examen.Examenes> entradasOrdenadas = diario.getExamenes().stream()
                 .sorted((e1, e2) -> e2.getFechaPublicacion().compareTo(e1.getFechaPublicacion()))
                 .collect(Collectors.toList());

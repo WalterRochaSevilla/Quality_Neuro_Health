@@ -3,31 +3,32 @@ package com.example.backend.service;
 import com.example.backend.model.Cita;
 import com.example.backend.model.Usuario;
 import com.example.backend.repository.UsuarioRepository;
-import com.example.backend.repository.CitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class RecordatorioService {
-    private final CitaRepository citaRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(RecordatorioService.class);
+
     private final UsuarioRepository usuarioRepository;
     private final EmailService emailService;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // ✅ instancia en lugar de static
 
     @Autowired
-    public RecordatorioService(CitaRepository citaRepository,
-                           UsuarioRepository usuarioRepository,
-                           EmailService emailService) {
-        this.citaRepository = citaRepository;
+    public RecordatorioService(
+            UsuarioRepository usuarioRepository,
+            EmailService emailService) {
         this.usuarioRepository = usuarioRepository;
         this.emailService = emailService;
     }
@@ -38,13 +39,11 @@ public class RecordatorioService {
             Date appointmentDate = dateFormat.parse(cita.getFecha());
             Date today = new Date();
 
-            // Si la cita es hoy, enviar inmediatamente
             if (dateFormat.format(appointmentDate).equals(dateFormat.format(today))) {
                 sendReminderEmail(cita);
                 return;
             }
 
-            // Calcular el delay para ejecutar el recordatorio el día de la cita a las 8 AM
             long delay = appointmentDate.getTime() - today.getTime();
 
             if (delay > 0) {
@@ -53,8 +52,7 @@ public class RecordatorioService {
                         TimeUnit.MILLISECONDS);
             }
         } catch (Exception e) {
-            System.err.println("Error programando recordatorio para cita ID: " + cita.getId());
-            e.printStackTrace();
+            logger.error("Error programando recordatorio para cita ID: {}", cita.getId(), e); // ✅ logger
         }
     }
 
@@ -69,8 +67,7 @@ public class RecordatorioService {
                 emailService.sendEmail(usuario.getEmail(), subject, body);
             }
         } catch (Exception e) {
-            System.err.println("Error enviando recordatorio para cita ID: " + cita.getId());
-            e.printStackTrace();
+            logger.error("Error enviando recordatorio para cita ID: {}", cita.getId(), e); // ✅ logger
         }
     }
 

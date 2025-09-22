@@ -1,12 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-
+import { SafeUrlPipe } from '../../health-resources/safe-url.pipe';
 @Component({
   selector: 'app-meditation-player',
   standalone: true,
-  imports: [MatIconModule, CommonModule],
+  imports: [MatIconModule, CommonModule, SafeUrlPipe],
   templateUrl: './meditation-player.component.html',
   styleUrls: ['./meditation-player.component.css']
 })
