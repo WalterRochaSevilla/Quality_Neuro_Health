@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './community.component.html',
   styleUrls: ['./community.component.css']
 })
-export class CommunityComponent {
+export class CommunityComponent implements OnInit {
   selectedCategory: string | null = null;
   categories: string[] = ['Todos los temas', 'Ansiedad', 'Depresión', 'Estrés', 'Meditación'];
   posts: any[] = [];
