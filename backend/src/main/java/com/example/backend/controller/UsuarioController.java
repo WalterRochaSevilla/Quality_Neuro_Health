@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +17,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
 
     @Autowired
     private UsuarioService usuarioService;
@@ -36,31 +41,38 @@ public class UsuarioController {
 
             Usuario nuevoUsuario = usuarioService.registrarUsuario(nombre, apellido, email, contrasena, rol);
 
-            try {
-                emailService.sendEmail(nuevoUsuario.getEmail(),
-                        "Bienvenido a NeuroHealth",
-                        "<h1>Hola " + nuevoUsuario.getNombre() + "!</h1><p>Tu cuenta ha sido creada con éxito.</p>");
-            } catch (Exception e) {
-                // Si el correo falla, el usuario aún se registra
-                System.err.println("Error al enviar el correo: " + e.getMessage());
-            }
+            // 🔹 Llamamos al nuevo método que maneja el envío de correo
+            enviarCorreoBienvenida(nuevoUsuario);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
+    // 🔹 Método extraído para resolver el "nested try block"
+    private void enviarCorreoBienvenida(Usuario usuario) {
+        try {
+            emailService.sendEmail(
+                    usuario.getEmail(),
+                    "Bienvenido a NeuroHealth",
+                    "<h1>Hola " + usuario.getNombre() + "!</h1><p>Tu cuenta ha sido creada con éxito.</p>"
+            );
+        } catch (Exception e) {
+            // 🔹 Reemplazo de System.err.println por logger
+            logger.error("Error al enviar el correo: {}", e.getMessage(), e);
+        }
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Usuario> iniciarSesion(@RequestParam String email, @RequestParam String contrasena) {
         Usuario user = usuarioService.iniciarSesion(email, contrasena);
 
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null); // Retorna un 401 si no se encuentra el usuario
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        return ResponseEntity.ok(user); // Retorna el usuario si es válido
+        return ResponseEntity.ok(user);
     }
 
 }
-
