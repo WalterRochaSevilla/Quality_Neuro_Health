@@ -1,7 +1,7 @@
 <div class="player-container">
     <div class="player-header">
       <h2>{{ meditation.title }}</h2>
-      <button mat-icon-button (click)="close.emit()">
+      <button mat-icon-button (click)="closed.emit()">
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -9,6 +9,36 @@
     <div class="media-container">
       <video *ngIf="meditation.type === 'video'" controls>
         <source [src]="meditation.url" [type]="mediaType">
+        
+        <!-- Subtítulos en español -->
+        <track *ngIf="meditation.subtitles" 
+               kind="subtitles" 
+               [src]="meditation.subtitles" 
+               srclang="es" 
+               label="Español"
+               default>
+        
+        <!-- Subtítulos en inglés -->
+        <track *ngIf="meditation.subtitlesEn" 
+               kind="subtitles" 
+               [src]="meditation.subtitlesEn" 
+               srclang="en" 
+               label="English">
+        
+        <!-- Descripción auditiva -->
+        <track *ngIf="meditation.descriptionTrack" 
+               kind="descriptions" 
+               [src]="meditation.descriptionTrack" 
+               srclang="es" 
+               label="Descripción auditiva">
+        
+        <!-- Capítulos -->
+        <track *ngIf="meditation.chapters" 
+               kind="chapters" 
+               [src]="meditation.chapters" 
+               srclang="es" 
+               label="Capítulos">
+        
         Tu navegador no soporta la reproducción de video.
       </video>
 
@@ -16,19 +46,46 @@
         <source [src]="meditation.url" [type]="mediaType">
         Tu navegador no soporta la reproducción de audio.
       </audio>
+      
       <iframe
         *ngIf="meditation.type === 'youtube'"
         width="100%"
         height="400"
         [src]="getSafeYoutubeUrl(meditation.url)"
-        frameborder="0"
+        [title]="meditation.title + ' - Meditación NeuroHealth'"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
+
+      <!-- Indicador de subtítulos disponibles -->
+      <div *ngIf="meditation.type === 'video' && hasSubtitles()" 
+           class="subtitle-info">
+        <mat-icon>closed_caption</mat-icon>
+        <span>Subtítulos disponibles - Active los controles del reproductor</span>
+      </div>
     </div>
 
     <div class="meditation-info">
       <p>{{ meditation.description }}</p>
       <p><strong>Duración:</strong> {{ meditation.duration }}</p>
+      
+      <!-- Información de accesibilidad -->
+      <div *ngIf="hasAccessibilityFeatures()" class="accessibility-info">
+        <h4> Recursos de accesibilidad incluidos:</h4>
+        <ul>
+          <li *ngIf="meditation.subtitles">
+            <mat-icon>closed_caption</mat-icon> Subtítulos en español
+          </li>
+          <li *ngIf="meditation.subtitlesEn">
+            <mat-icon>closed_caption</mat-icon> Subtítulos en inglés
+          </li>
+          <li *ngIf="meditation.descriptionTrack">
+            <mat-icon>record_voice_over</mat-icon> Descripción auditiva
+          </li>
+          <li *ngIf="meditation.chapters">
+            <mat-icon>menu_book</mat-icon> Navegación por capítulos
+          </li>
+        </ul>
+      </div>
     </div>
   </div>

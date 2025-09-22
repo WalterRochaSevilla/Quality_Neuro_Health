@@ -7,12 +7,12 @@ import { delay } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/usuarios';
+  private readonly apiUrl = 'http://localhost:8080/usuarios';
   private usuario: any = null;
-  private isAdminSubject = new BehaviorSubject<boolean>(false);
+  private readonly isAdminSubject = new BehaviorSubject<boolean>(false);
   isAdmin$ = this.isAdminSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
     // Mock para administrador

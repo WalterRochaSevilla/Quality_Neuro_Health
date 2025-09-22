@@ -12,10 +12,9 @@ import { CommonModule } from '@angular/common';
 })
 export class MeditationPlayerComponent {
   @Input() meditation: any;
-  //@Output() close = new EventEmitter<void>();
   @Output() closed = new EventEmitter<void>();
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private readonly sanitizer: DomSanitizer) {}
 
   get mediaType(): string {
     return this.meditation.type === 'audio' ? 'audio/mpeg' : 'video/mp4';
@@ -28,9 +27,22 @@ export class MeditationPlayerComponent {
     );
   }
 
-  private extractYoutubeId(url: string): string {
-    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : '';
+  // Método para verificar si hay subtítulos disponibles
+  hasSubtitles(): boolean {
+    return !!(this.meditation.subtitles || this.meditation.subtitlesEn);
   }
+
+  // Método para verificar características de accesibilidad
+  hasAccessibilityFeatures(): boolean {
+    return !!(this.meditation.subtitles || 
+              this.meditation.subtitlesEn || 
+              this.meditation.descriptionTrack || 
+              this.meditation.chapters);
+  }
+
+  private extractYoutubeId(url: string): string {
+    const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = regExp.exec(url);
+    return match && match[2].length === 11 ? match[2] : '';
+}
 }
