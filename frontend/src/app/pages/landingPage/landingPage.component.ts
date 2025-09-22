@@ -5,6 +5,7 @@ import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { EspecialistaService } from '../../services/especialista.service';
 import { Subscription } from 'rxjs';
+import { GeolocationWrapperService } from '../../services/geolocation-wrapper.service';
 
 declare let L: any;
 
@@ -16,7 +17,7 @@ declare let L: any;
   styleUrls: ['./landingPage.component.css'],
   providers: [DatePipe]
 })
-export class landingPage implements OnInit, AfterViewInit, OnDestroy {
+export class landingPage implements OnInit, AfterViewInit, OnDestroy{
   selectedDate: Date | null = null;
   currentDate = new Date();
   calendarDays: (number | null)[][] = [];
@@ -27,19 +28,18 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
   private fragmentSubscription: Subscription | undefined;
   private leafletLoaded = false;
   userLocation: { lat: number; lng: number } | null = null;
-
-  // Solución 1: Declaración única y consistente de staticClinics
   staticClinics: any[] = [];
 
   constructor(
-    private router: Router,
-    private datePipe: DatePipe,
-    private authService: AuthService,
-    private especialistaService: EspecialistaService,
-    private route: ActivatedRoute,
-    private el: ElementRef,
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object,
+    private readonly router: Router,
+    private readonly datePipe: DatePipe,
+    private readonly authService: AuthService,
+    private readonly especialistaService: EspecialistaService,
+    private readonly route: ActivatedRoute,
+    private readonly el: ElementRef,
+    private readonly http: HttpClient,
+    @Inject(PLATFORM_ID) private readonly platformId: Object,
+    private readonly geolocationService: GeolocationWrapperService,
   ) {
     this.http.get<any[]>('assets/landing-page/mental-health-centers.json').subscribe(data => {
       this.staticClinics = data;
@@ -47,12 +47,12 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.generateCalendar(this.currentDate);
     this.checkAuthStatus();
   }
 
-  async ngAfterViewInit(): Promise<void> {
+  ngAfterViewInit(): void {
     this.fragmentSubscription = this.route.fragment.subscribe(fragment => {
       if (fragment) {
         setTimeout(() => this.scrollToFragment(fragment), 100);
@@ -60,11 +60,18 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if (isPlatformBrowser(this.platformId)) {
-      await this.loadLeaflet();
-      if (!this.isEspecialista) {
-        await this.getUserLocation();
-        this.initMap();
-      }
+      this.loadLeaflet()
+        .then(() => {
+          if (!this.isEspecialista) {
+            return this.getUserLocation().then(() => {
+              this.initMap();
+            });
+          }
+          return Promise.resolve();
+        })
+        .catch(error => {
+          console.error('Error during initialization:', error);
+        });
     }
   }
 
@@ -88,32 +95,11 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  async getUserLocation(): Promise<void> {
-    return new Promise((resolve) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.userLocation = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            resolve();
-          },
-          (error) => {
-            console.error('Error obteniendo ubicación', error);
-            this.userLocation = { lat: -17.371486977105853, lng: -66.1439330529856 };
-            resolve();
-          }
-        );
-      } else {
-        console.error('Geolocation no soportada');
-        this.userLocation = { lat: -17.371486977105853, lng: -66.1439330529856 };
-        resolve();
-      }
-    });
+  private async getUserLocation(): Promise<void> {
+    this.userLocation = await this.geolocationService.getLocationByIP();
   }
 
-  scrollToFragment(fragment: string): void {
+  private scrollToFragment(fragment: string): void {
     try {
       const element = document.querySelector(`#${fragment}`);
       if (element) {
@@ -124,13 +110,13 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  checkAuthStatus() {
+  private checkAuthStatus(): void {
     const usuario = this.authService.getUsuario();
     this.isLoggedIn = !!usuario;
     this.isEspecialista = usuario?.rol === 'especialista';
   }
 
-  logout() {
+  logout(): void {
     if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
       this.authService.logout();
       this.isLoggedIn = false;
@@ -141,7 +127,7 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  generateCalendar(date: Date) {
+  private generateCalendar(date: Date): void {
     const month = date.getMonth();
     const year = date.getFullYear();
     const firstDay = new Date(year, month, 1);
@@ -171,7 +157,7 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  selectDate(day: number | null) {
+  selectDate(day: number | null): void {
     if (day) {
       this.selectedDate = new Date(
         this.currentDate.getFullYear(),
@@ -188,7 +174,7 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
       this.selectedDate.getFullYear() === this.currentDate.getFullYear();
   }
 
-  prevMonth() {
+  prevMonth(): void {
     this.currentDate = new Date(
       this.currentDate.getFullYear(),
       this.currentDate.getMonth() - 1
@@ -197,7 +183,7 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     this.selectedDate = null;
   }
 
-  nextMonth() {
+  nextMonth(): void {
     this.currentDate = new Date(
       this.currentDate.getFullYear(),
       this.currentDate.getMonth() + 1
@@ -225,7 +211,7 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  initMap(): void {
+  private initMap(): void {
     if (!this.leafletLoaded || !window['L'] || !this.userLocation) {
       console.error('Leaflet no está disponible o no hay ubicación');
       return;
@@ -269,11 +255,8 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  // Solución 2: Método simplificado para obtener clínicas
-  findMentalHealthClinics(): void {
+  private findMentalHealthClinics(): void {
     if (!this.userLocation) return;
-
-    // Usar solo los datos estáticos
     const transformedClinics = this.staticClinics.map(clinic => ({
       ...clinic,
       lat: clinic.lat,
@@ -288,8 +271,6 @@ export class landingPage implements OnInit, AfterViewInit, OnDestroy {
 
     this.processClinicsData(transformedClinics);
   }
-
-  // Solución 3: Mover processClinicsData antes de su uso
   private processClinicsData(clinics: any[]): void {
     if (!this.map || !this.markerCluster || !window['L']) return;
 
