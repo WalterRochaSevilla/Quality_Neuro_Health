@@ -91,7 +91,7 @@ export class MeditationsComponent implements OnInit, OnDestroy {
     };
   }
 
-  playMeditation(meditation: Meditation): void {
+   playMeditation(meditation: Meditation): void {
     this.selectedMeditation = meditation;
     this.playerVisible = true;
   }
