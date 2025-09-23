@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CitaService, Cita } from '../../services/cita.service';
+import { CitaService } from '../../services/cita.service';
 import { AuthService } from '../../auth.service';
 
 interface Appointment {
