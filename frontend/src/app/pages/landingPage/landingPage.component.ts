@@ -17,7 +17,7 @@ declare let L: any;
   styleUrls: ['./landingPage.component.css'],
   providers: [DatePipe]
 })
-export class landingPage implements OnInit, AfterViewInit, OnDestroy{
+export class LandingPage  implements OnInit, AfterViewInit, OnDestroy{
   selectedDate: Date | null = null;
   currentDate = new Date();
   calendarDays: (number | null)[][] = [];

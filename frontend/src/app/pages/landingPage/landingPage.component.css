@@ -85,12 +85,6 @@ html, body {
   max-width: 100%;
   overflow-x: hidden;
 }
-.section-title {
-  color: #2A4E6E;
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 3rem;
-}
 
 .services-grid {
   display: grid;
@@ -117,9 +111,8 @@ html, body {
 }
 
 .service-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.03);
   box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-  transform: scale(1.03);
 }
 
 .card-image {
@@ -267,9 +260,10 @@ html, body {
 }
 
 .section-title {
-  text-align: center;
+  color: #2A4E6E;
   font-size: 2.5rem;
-  margin-bottom: 1.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -311,9 +305,7 @@ html, body {
 }
 
 .calendar-header button {
-  background: none;
   border: none;
-  color: var(--calendar-font-color);
   font-size: 1.5rem;
   cursor: pointer;
   background: linear-gradient(to right, #2A4E6E, #5A92C2);
@@ -380,7 +372,6 @@ html, body {
 }
 
 .confirm-button {
-  background: var(--calendar-today-color);
   color: var(--calendar-font-color);
   background: linear-gradient(to right, #2A4E6E, #5A92C2);
   border: none;
@@ -396,8 +387,6 @@ html, body {
 }
 
 .confirm-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
