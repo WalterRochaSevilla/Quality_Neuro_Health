@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { TruncatePipe } from '../../shared/pipes/truncate.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { NewPostComponent } from './new-post/new-post.component';
 import { CommentService } from '../../services/comment.service';
-import { Router } from '@angular/router';
 
 @Component({
   standalone: true,

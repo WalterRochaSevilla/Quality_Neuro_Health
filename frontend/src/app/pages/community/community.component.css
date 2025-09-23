@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -12,6 +13,32 @@
   top: 0;
   left: 0;
   z-index: 1000;
+}
+.logo-button {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  color: #FAFAF9;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.logo-button:hover {
+  opacity: 0.9; 
+}
+.logo-button:focus {
+  outline: 2px solid #FAFAF9;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.logo-button:active {
+  transform: scale(0.98); 
 }
 .login-button {
   background-color: #7FB685;
@@ -39,12 +66,14 @@
   font-size: 2.5rem;
   font-weight: bold;
   letter-spacing: -0.05em;
+  pointer-events: none;
 }
 
 .logo-health {
   font-size: 2rem;
   font-weight: 300;
   letter-spacing: 0.1em;
+  pointer-events: none;
 }
 
 .tagline {
