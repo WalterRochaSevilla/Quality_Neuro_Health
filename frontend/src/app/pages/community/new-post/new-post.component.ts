@@ -56,10 +56,13 @@ export class NewPostComponent {
         this.postForm.value.title!,
         this.postForm.value.content!,
         this.postForm.value.category!
-      ).subscribe(response => {
-        this.dialogRef.close(response);
-      }, error => {
-        console.error('Error al publicar:', error);
+      ).subscribe({
+        next: (response) => {
+          this.dialogRef.close(response);
+        },
+        error: (error) => {
+          console.error('Error al publicar:', error);
+        }
       });
     } else {
       console.error('No hay usuario autenticado o el formulario es inválido');
