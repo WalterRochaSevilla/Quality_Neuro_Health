@@ -16,7 +16,7 @@ export class LoginComponent {
   contrasena: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private readonly authService: AuthService, private readonly router: Router) {}
 
   onSubmit() {
     this.authService.login(this.email, this.contrasena).subscribe({

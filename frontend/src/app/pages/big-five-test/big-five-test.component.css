@@ -196,15 +196,7 @@
   }
   
   /* Adaptación visual al slider */
-  input[type="range"] {
-    background-color: transparent;
-    border: none;
-  }
-  
-  input[type="range"]:focus {
-    outline: none;
-  }
-  
+
   input[type="range"]:disabled {
     opacity: 0.4;
   }

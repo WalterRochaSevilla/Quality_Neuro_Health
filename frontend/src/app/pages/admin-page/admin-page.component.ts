@@ -19,10 +19,10 @@ export class AdminPageComponent implements OnInit {
   currentView: 'users' | 'appointments' | 'logs' = 'users';
 
   constructor(
-    private adminService: AdminService,
-    private authService: AuthService,
-    private datePipe: DatePipe,
-    private router: Router
+    private readonly adminService: AdminService,
+    private readonly authService: AuthService,
+    private readonly datePipe: DatePipe,
+    private readonly router: Router
   ) {}
 
   ngOnInit() {

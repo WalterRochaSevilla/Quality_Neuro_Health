@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EmocionService {
-  private apiUrl = 'http://localhost:8080/diario';
+  private readonly apiUrl = 'http://localhost:8080/diario';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   /**
    * Añade una nueva entrada al diario emocional del usuario.

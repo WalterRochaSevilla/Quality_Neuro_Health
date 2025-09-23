@@ -18,7 +18,7 @@ export class CommunityComponent implements OnInit {
   categories: string[] = ['Todos los temas', 'Ansiedad', 'Depresión', 'Estrés', 'Meditación'];
   posts: any[] = [];
 
-  constructor(private router: Router,private commentService: CommentService, private dialog: MatDialog) {}
+  constructor(private readonly router: Router,private readonly commentService: CommentService, private readonly dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.commentService.getComments().subscribe({

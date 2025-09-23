@@ -225,10 +225,6 @@
   z-index: 0;
 }
 
-.da-day-selected .da-appointment-indicator {
-  background-color: #FFFFFF; 
-}
-
 
 /* --- APPOINTMENTS LIST STYLES --- */
 .da-appointments-list-container {

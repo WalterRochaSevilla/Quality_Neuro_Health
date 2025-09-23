@@ -7,8 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:8080/usuarios';
-  private apiAppointmentsUrl = 'http://localhost:8080/citas';
+  private readonly apiUrl = 'http://localhost:8080/usuarios';
+  private readonly apiAppointmentsUrl = 'http://localhost:8080/citas';
   // Datos mockeados
   private mockUsers = [
     { id: '1', nombre: 'Juan', apellido: 'Pérez', email: 'juan@example.com', rol: 'usuario', activo: true },
@@ -23,16 +23,15 @@ export class AdminService {
     { id: '103', pacienteNombre: 'Mario Ruiz', especialistaNombre: 'Dra. Martínez', fecha: '2023-10-17', hora: '09:30', estado: 'Confirmada' },
   ];
 
-  private mockActivityLog = [
+  private readonly mockActivityLog = [
     { timestamp: new Date('2023-10-10T09:00:00'), action: 'Usuario juan@example.com activado', admin: 'Admin Principal' },
     { timestamp: new Date('2023-10-09T14:30:00'), action: 'Cita 100 cancelada', admin: 'Admin Principal' },
     { timestamp: new Date('2023-10-08T11:15:00'), action: 'Usuario nuevo registrado: ana@example.com', admin: 'Admin Principal' },
   ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   getUsers(): Observable<Object> {
-    // return of(this.mockUsers).pipe(delay(500)); 
     return this.http.get(`${this.apiUrl}`, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 

@@ -38,8 +38,8 @@ export class NewPostComponent {
 
   constructor(
     public dialogRef: MatDialogRef<NewPostComponent>,
-    private commentService: CommentService,
-    private authService: AuthService
+    private readonly commentService: CommentService,
+    private readonly authService: AuthService
   ) {
     const usuario = this.authService.getUsuario();
     this.usuarioId = usuario ? usuario.id : null;

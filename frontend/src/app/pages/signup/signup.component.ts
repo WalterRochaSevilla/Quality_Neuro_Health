@@ -24,7 +24,7 @@ export class SignupComponent {
   hidePassword = true;
   hideConfirmPassword = true;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private readonly authService: AuthService, private readonly router: Router) {
     this.signupForm = new FormGroup({
       nombre: new FormControl('', Validators.required),
       apellido: new FormControl('', Validators.required),

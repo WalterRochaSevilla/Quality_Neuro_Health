@@ -16,12 +16,12 @@ export interface Meditation {
   providedIn: 'root'
 })
 export class MeditationsService {
-  private meditationsUrl = 'meditations-assets/meditations.json'; // Path to your JSON
+  private readonly meditationsUrl = 'meditations-assets/meditations.json'; // Path to your JSON
   private meditations: Meditation[] = [];
-  private meditationsSubject = new BehaviorSubject<Meditation[]>([]);
+  private readonly meditationsSubject = new BehaviorSubject<Meditation[]>([]);
   private dataLoaded = false;
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.loadInitialMeditations();
   }
 

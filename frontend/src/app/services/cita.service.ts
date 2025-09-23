@@ -15,9 +15,9 @@ export interface Cita {
   providedIn: 'root'
 })
 export class CitaService {
-  private apiUrl = 'http://localhost:8080/citas'; // Asegúrate de usar la URL correcta
+  private readonly apiUrl = 'http://localhost:8080/citas'; // Asegúrate de usar la URL correcta
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   // Crear una nueva cita
   crearCita(cita: Cita): Observable<Cita> {

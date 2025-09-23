@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class CommentService {
 
-  private apiUrl = 'http://localhost:8080/foro'
+  private readonly apiUrl = 'http://localhost:8080/foro'
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getComments(): Observable<any[]> {
 

@@ -41,7 +41,7 @@ export class DoctorAppointmentsComponent implements OnInit {
   selectedDate: Date | null = null;
   appointmentsForSelectedDate: Appointment[] = [];
 
-  private allFetchedAppointments: Map<string, Appointment[]> = new Map();
+  private readonly allFetchedAppointments: Map<string, Appointment[]> = new Map();
 
   isLoadingAppointments = false;
 
@@ -50,9 +50,9 @@ export class DoctorAppointmentsComponent implements OnInit {
   reschedulePromptMessage: string | null = null;
 
   constructor(
-    private authService: AuthService,
-    private datePipe: DatePipe,
-    private citaService: CitaService
+    private readonly authService: AuthService,
+    private readonly datePipe: DatePipe,
+    private readonly citaService: CitaService
   ) {}
 
   ngOnInit(): void {
@@ -259,31 +259,7 @@ export class DoctorAppointmentsComponent implements OnInit {
     const newTime = this.appointmentToReschedule.hora; 
 
     if (confirm(`¿Reagendar cita de ${this.appointmentToReschedule.pacienteNombre} de ${oldDateFormatted} a ${newDateFormatted} a las ${newTime}?`)) {
-      // In a real implementation, you would call a service method to reschedule the appointment
-      // Something like:
-      /*
-      const updatedCita: Cita = {
-        id: this.appointmentToReschedule.id,
-        usuarioId: this.appointmentToReschedule.pacienteId || '',
-        especialistaId: this.appointmentToReschedule.especialistaId,
-        fecha: newDateFormatted,
-        hora: newTime
-      };
-      
-      this.citaService.actualizarCita(updatedCita).subscribe({
-        next: (response) => {
-          // Handle success
-          this.loadAppointmentsForMonthRange(this.currentDate);
-          alert(`Cita reagendada para ${this.appointmentToReschedule.pacienteNombre} a ${newDateFormatted} ${newTime}.`);
-          this.exitRescheduleMode(newDate);
-        },
-        error: (error) => {
-          // Handle error
-          alert('Error al reagendar la cita. Por favor, inténtelo de nuevo más tarde.');
-          console.error('Error rescheduling appointment:', error);
-        }
-      });
-      */
+
       
       // For now, let's simulate success
       // Update the appointment in our local data

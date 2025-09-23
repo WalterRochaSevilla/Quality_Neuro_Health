@@ -25,11 +25,11 @@ export class AppointmentComponent implements OnInit {
 
 
   constructor(
-    private route: ActivatedRoute,
-    private datePipe: DatePipe,
-    private especialistaService: EspecialistaService,
-    private authService: AuthService,
-    private router: Router
+    private readonly route: ActivatedRoute,
+    private readonly datePipe: DatePipe,
+    private readonly especialistaService: EspecialistaService,
+    private readonly authService: AuthService,
+    private readonly router: Router
   ) {
     const usuario = this.authService.getUsuario();
     this.usuarioId = usuario ? usuario.id : null;

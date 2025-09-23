@@ -15,9 +15,9 @@ interface Especialista {
   providedIn: 'root'
 })
 export class EspecialistaService {
-  private apiUrl = 'http://localhost:8080/api/especialistas';
+  private readonly apiUrl = 'http://localhost:8080/api/especialistas';
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   getAllEspecialistas(): Observable<Especialista[]> {
     return this.http.get<Especialista[]>(this.apiUrl);
