@@ -11,19 +11,18 @@ import { SafeUrlPipe } from '../../health-resources/safe-url.pipe';
 })
 export class MeditationPlayerComponent {
   @Input() meditation: any;
-  @Output() closed = new EventEmitter<void>(); 
+  @Output() playerClosed = new EventEmitter<void>();
 
-  constructor(private readonly sanitizer: DomSanitizer) {}
 
   get mediaType(): string {
-    return this.meditation.type === 'audio' ? 'audio/mpeg' : 'video/mp4';
+    if (this.meditation.type === 'audio') return 'audio/mpeg';
+    if (this.meditation.type === 'video') return 'video/mp4';
+    return '';
   }
 //
-  getSafeYoutubeUrl(url: string) {
-    const videoId = this.extractYoutubeId(url);
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.youtube.com/embed/${videoId}?autoplay=1`
-    );
+  getSafeUrl(url: string, type: string): string {
+    const pipe = new SafeUrlPipe();
+    return pipe.transform(url, type);
   }
 
   // Método para verificar si hay subtítulos disponibles
