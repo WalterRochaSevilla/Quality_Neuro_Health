@@ -18,8 +18,8 @@ export class PostDetailComponent implements OnInit {
   newComment: string = '';
 
   constructor(
-    private route: ActivatedRoute,
-    private communityComponent: CommunityComponent
+    private readonly route: ActivatedRoute,
+    private readonly communityComponent: CommunityComponent
   ) {}
 
   ngOnInit() {
