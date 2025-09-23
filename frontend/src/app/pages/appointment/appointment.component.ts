@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EspecialistaService } from '../../services/especialista.service';
 import { AuthService } from '../../auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-appointment',

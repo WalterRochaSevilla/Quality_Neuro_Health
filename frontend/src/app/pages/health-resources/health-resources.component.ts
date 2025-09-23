@@ -13,7 +13,7 @@ import { SafeUrlPipe } from './safe-url.pipe';
 export class HealthResourcesComponent {
   selectedVideoUrl: string | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   goToHome() {
     this.router.navigate(['/']);

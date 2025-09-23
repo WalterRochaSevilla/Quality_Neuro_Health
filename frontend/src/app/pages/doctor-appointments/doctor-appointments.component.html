@@ -50,7 +50,8 @@
                   [class.da-day-today]="isToday(day?.date)"
                   [class.da-day-has-appointments]="day?.hasAppointments"
                   [class.da-day-rescheduling-active]="isRescheduling"
-                  (click)="day && selectDate(day.date)">
+                  (click)="day && selectDate(day.date)"
+                  (keydown.enter)="day && selectDate(day.date)">
                 <span *ngIf="day">{{ day.dayNumber }}</span>
                 <span *ngIf="day?.hasAppointments" class="da-appointment-indicator"></span>
               </td>

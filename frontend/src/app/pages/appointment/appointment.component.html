@@ -1,6 +1,6 @@
 <div class="appointment-container">
 <header class="header">
-  <div class="logo" (click)="goToHome()" style="cursor: pointer;">
+  <div class="logo" (click)="goToHome()" (keydown.enter)="goToHome()" style="cursor: pointer;">
     <span class="logo-neuro">NEURO</span>
     <span class="logo-health">HEALTH</span>
   </div>
@@ -30,10 +30,11 @@
       
       <div class="time-slots">
         <div *ngFor="let slot of availableSlots" 
-             class="time-slot"
-             [class.available]="slot.isAvailable"
-             [class.booked]="!slot.isAvailable"
-             (click)="slot.isAvailable ? selectedHour(slot.time) : null">
+            class="time-slot"
+            [class.available]="slot.isAvailable"
+            [class.booked]="!slot.isAvailable"
+            (click)="slot.isAvailable ? selectedHour(slot.time) : null"
+            (keydown.enter)="slot.isAvailable ? selectedHour(slot.time) : null">
           {{ slot.time }}
           <span *ngIf="!slot.isAvailable" class="occupied-badge"></span>
         </div>

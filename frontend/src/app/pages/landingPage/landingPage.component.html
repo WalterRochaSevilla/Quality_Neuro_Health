@@ -161,7 +161,8 @@
               <td *ngFor="let day of week"
                   [class.selected]="isSelected(day)"
                   [class.empty]="day === null"
-                  (click)="selectDate(day)">
+                  (click)="selectDate(day)"
+                  (keydown.enter)="selectDate(day)">
                 {{ day !== null ? day : '' }}
               </td>
             </tr>
