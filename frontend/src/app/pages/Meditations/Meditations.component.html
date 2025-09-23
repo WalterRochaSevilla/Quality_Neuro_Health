@@ -94,7 +94,7 @@
 
 </div>
 
-<div class="overlay" *ngIf="playerVisible" (click)="closePlayer()"></div>
+<div class="overlay" *ngIf="playerVisible" (click)="closePlayer()" (keydown.escape)="closePlayer()">></div>
 
 <app-meditation-player 
   *ngIf="playerVisible" 

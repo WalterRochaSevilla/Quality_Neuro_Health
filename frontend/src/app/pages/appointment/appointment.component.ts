@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EspecialistaService } from '../../services/especialista.service';
-import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 
@@ -11,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-appointment',
   templateUrl: './appointment.component.html',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule],
+  imports: [FormsModule, CommonModule],
   providers: [DatePipe],
   styleUrls: ['./appointment.component.css']
 })
