@@ -23,7 +23,7 @@ class UsuarioServiceTest {
     private UsuarioService usuarioService;
 
     @Test
-    void testObtenerUsuarioPorId_usuarioExiste() {
+    void testObtenerUsuarioPorIdusuarioExiste() {
         // Preparar datos
         String id = "67d64c8fedc9ad56eedd10a9";
         Usuario mockUsuario = new Usuario();
@@ -44,7 +44,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void testObtenerUsuarioPorId_usuarioNoExiste() {
+    void testObtenerUsuarioPorIdusuarioNoExiste() {
         // Preparar datos
         String id = "noexiste123";
 
