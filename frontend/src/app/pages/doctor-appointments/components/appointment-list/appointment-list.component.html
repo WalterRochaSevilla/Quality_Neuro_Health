@@ -1,0 +1,26 @@
+<div class="da-appointments-list-container">
+  <h3 class="da-list-title">
+    Citas para {{ selectedDate ? (selectedDate | date:'fullDate':'':'es') : 'el día seleccionado' }}
+  </h3>
+  
+  <div *ngIf="isLoading" class="da-loading-appointments">
+    Cargando citas...
+  </div>
+  
+  <div *ngIf="!isLoading && appointments.length > 0" class="da-appointments-scroll">
+    <app-appointment-item
+      *ngFor="let appointment of appointments"
+      [appointment]="appointment"
+      (cancel)="handleCancelEvent($event)"
+      (reschedule)="handleRescheduleEvent($event)">
+    </app-appointment-item>
+  </div>
+  
+  <div *ngIf="!isLoading && appointments.length === 0 && selectedDate" class="da-no-appointments">
+    No hay citas programadas para este día.
+  </div>
+  
+  <div *ngIf="!isLoading && !selectedDate" class="da-no-day-selected">
+    Selecciona un día del calendario para ver las citas.
+  </div>
+</div>

@@ -17,12 +17,11 @@ export interface Appointment {
 export class AppointmentService {
   
   getAppointmentsBySpecialist(specialistId: string): Observable<Appointment[]> {
-    // En producción, esto vendría de tu backend
-    const today = new Date().toISOString().split('T')[0];
+    // Mock data - en producción esto vendría de tu backend
     return of([
       {
         id: '1',
-        fecha: today,
+        fecha: new Date().toISOString().split('T')[0],
         hora: '10:00',
         pacienteNombre: 'Juan Pérez',
         especialistaId: specialistId,
@@ -30,7 +29,7 @@ export class AppointmentService {
       },
       {
         id: '2',
-        fecha: today,
+        fecha: new Date().toISOString().split('T')[0],
         hora: '11:00',
         pacienteNombre: 'María García',
         especialistaId: specialistId,
@@ -40,25 +39,14 @@ export class AppointmentService {
   }
 
   cancelAppointment(appointmentId: string): Observable<boolean> {
+    // Lógica para cancelar cita
     console.log('Cancelling appointment:', appointmentId);
     return of(true);
   }
 
   rescheduleAppointment(appointmentId: string, newDate: string, newTime: string): Observable<boolean> {
+    // Lógica para reagendar cita
     console.log('Rescheduling appointment:', appointmentId, 'to', newDate, newTime);
     return of(true);
-  }
-
-  // Helper para mapear estados
-  getEstadoText(estado: Appointment['estado']): string {
-    const estadoMap = {
-      'confirmada': 'Confirmada',
-      'pendiente_confirmacion_paciente': 'Pendiente (Paciente)',
-      'pendiente_confirmacion_especialista': 'Pendiente (Especialista)',
-      'cancelada_paciente': 'Cancelada por Paciente',
-      'cancelada_especialista': 'Cancelada por Especialista',
-      'reagendada': 'Reagendada'
-    };
-    return estadoMap[estado];
   }
 }

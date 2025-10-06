@@ -1,0 +1,26 @@
+<div class="da-appointment-item">
+  <div class="da-appointment-time">{{ appointment.hora }}</div>
+  <div class="da-appointment-patient">
+    Paciente: {{ appointment.pacienteNombre || 'No especificado' }}
+  </div>
+  <div class="da-appointment-status" [ngClass]="'status-' + appointment.estado.toLowerCase()">
+    Estado: {{ getEstadoText(appointment.estado) }}
+  </div>
+  
+  <div class="da-appointment-actions" 
+       *ngIf="appointment.estado !== 'cancelada_especialista' && appointment.estado !== 'cancelada_paciente'">
+    <button class="da-action-button da-button-cancel" 
+            (click)="onCancel()">
+      Cancelar
+    </button>
+    <button class="da-action-button da-button-reschedule" 
+            (click)="onReschedule()">
+      Reagendar
+    </button>
+  </div>
+  
+  <div *ngIf="appointment.estado === 'cancelada_especialista' || appointment.estado === 'cancelada_paciente'" 
+       class="da-appointment-cancelled-info">
+    Cita cancelada.
+  </div>
+</div>
