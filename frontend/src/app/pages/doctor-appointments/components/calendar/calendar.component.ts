@@ -37,17 +37,13 @@ export class CalendarComponent implements OnChanges {
     const month = this.currentDate.getMonth();
     const today = new Date();
     today.setHours(0,0,0,0);
-
     const firstDayOfMonth = new Date(year, month, 1);
-
     let startDayOfWeek = firstDayOfMonth.getDay();
     startDayOfWeek = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
-
     let currentCalDate = new Date(firstDayOfMonth);
     currentCalDate.setDate(currentCalDate.getDate() - startDayOfWeek);
-
     const weeksToDisplay = 6;
-
+    
     for (let i = 0; i < weeksToDisplay; i++) {
       const week: (CalendarDay | null)[] = [];
       for (let j = 0; j < 7; j++) {
@@ -60,7 +56,7 @@ export class CalendarComponent implements OnChanges {
           dayNumber: dayDate.getDate(),
           isCurrentMonth: dayDate.getMonth() === month,
           hasAppointments: this.appointmentsMap.has(dateKey) && (this.appointmentsMap.get(dateKey)?.length || 0) > 0,
-          isToday: dayDate.getTime() === today.getTime()
+          isToday: this.isToday(dayDate)
         });
         currentCalDate.setDate(currentCalDate.getDate() + 1);
       }
@@ -78,15 +74,17 @@ export class CalendarComponent implements OnChanges {
 
   isSelected(date: Date | undefined | null): boolean {
     if (!date || !this.selectedDate) return false;
-    return date.getTime() === this.selectedDate.getTime();
+    return date.getFullYear() === this.selectedDate.getFullYear() &&
+          date.getMonth() === this.selectedDate.getMonth() &&
+          date.getDate() === this.selectedDate.getDate();
   }
 
   isToday(date: Date | undefined | null): boolean {
     if (!date) return false;
     const today = new Date();
-    return date.getDate() === today.getDate() &&
-           date.getMonth() === today.getMonth() &&
-           date.getFullYear() === today.getFullYear();
+    return date.getFullYear() === today.getFullYear() &&
+          date.getMonth() === today.getMonth() &&
+          date.getDate() === today.getDate();
   }
 
   onPrevMonth(): void {
