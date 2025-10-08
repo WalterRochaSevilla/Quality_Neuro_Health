@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComunidadComponent } from './comunidad.component';
-
+import { CommunityComponent } from './community.component';
 describe('ComunidadComponent', () => {
-  let component: ComunidadComponent;
-  let fixture: ComponentFixture<ComunidadComponent>;
+  let component: CommunityComponent;
+  let fixture: ComponentFixture<CommunityComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ComunidadComponent]
+      imports: [CommunityComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ComunidadComponent);
+    fixture = TestBed.createComponent(CommunityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

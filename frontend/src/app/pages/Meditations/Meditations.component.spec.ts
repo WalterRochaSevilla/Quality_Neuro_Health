@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BigFiveTestComponent } from '../big-five-test/big-five-test.component';
 
-import { BigFiveTestComponent } from './big-five-test.component';
 
 describe('BigFiveTestComponent', () => {
   let component: BigFiveTestComponent;
