@@ -1,0 +1,123 @@
+.da-calendar-container {
+  flex: 1 1 500px; 
+  max-width: 600px;
+  background: #FFFFFF; 
+  border-radius: 16px;
+  padding: 25px;
+  color: #2A4E6E; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  align-self: flex-start; 
+}
+
+.da-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  color: #2A4E6E; 
+}
+
+.da-calendar-header button {
+  background: none;
+  border: none;
+  color: #5A92C2; 
+  font-size: 1.8rem; 
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.da-calendar-header button:hover {
+  background: #E0EAF3; 
+  color: #2A4E6E;
+}
+
+.da-calendar-header span {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.da-calendar {
+  width: 100%;
+  border-collapse: collapse;
+  color: #333; 
+}
+
+.da-calendar th {
+  padding: 12px 8px;
+  font-weight: 600;
+  color: #5A92C2; 
+  border-bottom: 1px solid #DDE6ED;
+  font-size: 0.9rem;
+}
+
+.da-calendar td {
+  width: 14.28%;
+  height: 50px; 
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #4A5568; 
+}
+
+.da-calendar td span {
+  z-index: 1;
+  position: relative;
+}
+
+.da-calendar td:not(.da-day-empty):hover {
+  background: #E0EAF3 !important; 
+  color: #2A4E6E !important;
+}
+
+.da-day-selected {
+  background-color: #5A92C2 !important; 
+  color: #FFFFFF !important;
+  font-weight: bold;
+}
+
+.da-day-selected .da-appointment-indicator {
+  background-color: #FFFFFF !important; 
+}
+
+.da-day-today span:not(.da-appointment-indicator) { 
+  background-color: #7FB685; 
+  color: #FFFFFF;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.da-day-selected.da-day-today span:not(.da-appointment-indicator) {
+  background-color: #FFFFFF; 
+  color: #5A92C2;
+}
+
+.da-day-empty {
+  color: #A0AEC0; 
+  cursor: default;
+}
+
+.da-day-empty:hover {
+  background: none !important;
+}
+
+.da-appointment-indicator {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #7FB685; 
+  border-radius: 50%;
+  z-index: 0;
+}

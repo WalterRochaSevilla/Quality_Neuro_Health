@@ -1,0 +1,32 @@
+.da-appointments-list-container {
+  flex: 1 1 60%;
+  background: #FFFFFF;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  min-height: 400px; 
+}
+
+.da-list-title {
+  color: #2A4E6E;
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #E0EAF3;
+  padding-bottom: 0.8rem;
+}
+
+.da-loading-appointments,
+.da-no-appointments,
+.da-no-day-selected {
+  text-align: center;
+  color: #718096; 
+  font-size: 1.1rem;
+  padding: 3rem 1rem;
+}
+
+.da-appointments-scroll {
+  max-height: 500px; 
+  overflow-y: auto;
+  padding-right: 10px; 
+}

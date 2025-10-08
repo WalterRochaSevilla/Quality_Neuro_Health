@@ -1,0 +1,73 @@
+.da-appointment-item {
+  background-color: #F7FAFC;
+  border: 1px solid #E2E8F0;
+  border-left: 5px solid #5A92C2; 
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.da-appointment-item:hover {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+}
+
+.da-appointment-time {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2A4E6E;
+  margin-bottom: 0.3rem;
+}
+
+.da-appointment-patient {
+  font-size: 1rem;
+  color: #4A5568;
+  margin-bottom: 0.3rem;
+}
+
+.da-appointment-status {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.status-confirmada { background-color: #C6F6D5; color: #2F855A; border-left: 3px solid #38A169;}
+.status-pendiente_confirmacion_paciente { background-color: #FFF5C0; color: #975A16; border-left: 3px solid #D69E2E;}
+.status-pendiente_confirmacion_especialista { background-color: #BEE3F8; color: #2C5282; border-left: 3px solid #3182CE;}
+.status-cancelada_paciente, .status-cancelada_especialista { background-color: #FED7D7; color: #9B2C2C; border-left: 3px solid #E53E3E;}
+.status-reagendada { background-color: #E9D8FD; color: #6B46C1; border-left: 3px solid #805AD5;}
+
+.da-appointment-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.da-action-button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+  color: white;
+}
+
+.da-button-cancel { background-color: #E53E3E; }
+.da-button-cancel:hover { background-color: #C53030; }
+
+.da-button-reschedule { background-color: #DD6B20; }
+.da-button-reschedule:hover { background-color: #C05621; }
+
+.da-button-confirm { background-color: #38A169; }
+.da-button-confirm:hover { background-color: #2F855A; }
+
+.da-appointment-cancelled-info {
+  color: #C53030;
+  font-weight: 500;
+  font-size: 0.9rem;
+}

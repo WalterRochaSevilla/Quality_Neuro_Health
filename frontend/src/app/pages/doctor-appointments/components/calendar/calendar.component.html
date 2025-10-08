@@ -1,0 +1,35 @@
+<div class="da-calendar-container">
+  <div class="da-calendar-header">
+    <button (click)="onPrevMonth()">‹</button>
+    <span>{{ currentDate | date:'MMMM y' | uppercase }}</span>
+    <button (click)="onNextMonth()">›</button>
+  </div>
+
+  <table class="da-calendar">
+    <thead>
+      <tr>
+        <th>L</th>
+        <th>M</th>
+        <th>X</th>
+        <th>J</th>
+        <th>V</th>
+        <th>S</th>
+        <th>D</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let week of calendarDays">
+        <td *ngFor="let day of week"
+            [class.da-day-selected]="isSelected(day?.date)"
+            [class.da-day-empty]="!day?.isCurrentMonth"
+            [class.da-day-today]="isToday(day?.date)"
+            [class.da-day-has-appointments]="day?.hasAppointments"
+            (click)="day && onDateSelect(day.date)"
+            (keydown.enter)="day && onDateSelect(day.date)">
+          <span *ngIf="day">{{ day.dayNumber }}</span>
+          <span *ngIf="day?.hasAppointments" class="da-appointment-indicator"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
