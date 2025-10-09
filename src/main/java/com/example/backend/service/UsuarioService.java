@@ -17,6 +17,13 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+        // Constructor para tests unitarios
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
+    public UsuarioService() {}
+
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
     }
@@ -47,6 +54,11 @@ public class UsuarioService {
     public Usuario obtenerUsuarioPorId(String id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
         return usuario.orElse(null);
+    }
+    
+        // Solo si quieres el método directo (no obligatorio):
+    public Usuario guardarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
 }

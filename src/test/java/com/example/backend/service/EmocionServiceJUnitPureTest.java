@@ -100,22 +100,17 @@ class EmocionServiceJUnitPureTest {
 
     @Test
     void testEscribirEnDiarioUnitario() {
-        // Arrange
         FakeUsuarioService usuarioService = new FakeUsuarioService();
         FakeEmocionRepository emocionRepository = new FakeEmocionRepository();
         EmocionService emocionService = new EmocionService(emocionRepository, usuarioService);
 
-        // Crear usuario completo
         Usuario usuario = new Usuario();
         usuario.setId("userSpring");
         usuario.setNombre("Test User");
-        // Agrega otros campos necesarios según tu modelo de Usuario
         usuarioService.agregarUsuario(usuario);
 
-        // DEBUG
         System.out.println("DEBUG: Antes de llamar escribirEnDiario");
 
-        // Act
         Map<String, Object> respuesta = emocionService.escribirEnDiario(
             "userSpring", 
             "nota desde test unitario spring", 

@@ -7,6 +7,7 @@ import com.example.backend.exception.UsuarioNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -56,7 +57,7 @@ class EmocionServiceTest {
         assertThatThrownBy(() ->
             emocionService.escribirEnDiario("userX", "nota", "alegre")
         ).isInstanceOf(UsuarioNotFoundException.class)
-         .hasMessageContaining("Usuario con id userX no encontrado");
+        .hasMessageContaining("Usuario con id userX no encontrado");
     }
 
     @Test
@@ -79,5 +80,38 @@ class EmocionServiceTest {
         var resultado = emocionService.escribirEnDiario("userU", "nota test", "alegre");
 
         assertThat(resultado.get("id")).isEqualTo("abc123");
+    }
+        @Test
+    void shouldAddMultipleEntriesToDiario() {
+        Usuario usuario = new Usuario();
+        Emocion emocion = new Emocion(usuario);
+
+        emocion.setListaDiario("primera entrada", "feliz");
+        emocion.setListaDiario("segunda entrada", "enojado");
+
+        assertThat(emocion.getListaDiario()).hasSize(2);
+        assertThat(emocion.getListaDiario().get(0).getEmocion()).isEqualTo("feliz");
+        assertThat(emocion.getListaDiario().get(1).getEmocion()).isEqualTo("enojado");
+    }
+        @Test
+    void shouldCreateListaDiarioAndUseGetters() {
+        String contenido = "contenido";
+        String emocionText = "alegre";
+        Emocion.ListaDiario entrada = new Emocion.ListaDiario(contenido, emocionText);
+
+        assertThat(entrada.getType()).isEqualTo("emotion");
+        assertThat(entrada.getEmocion()).isEqualTo("alegre");
+        assertThat(entrada.getContenido()).isEqualTo("contenido");
+        assertThat(entrada.getFechaPublicacion()).isBeforeOrEqualTo(Instant.now());
+    }
+        @Test
+    void shouldInstantiateEmocionWithDefaultConstructor() {
+        // Esto cubre la línea del constructor vacío
+        Emocion emocion = new Emocion();
+        assertThat(emocion).isNotNull();
+        // Opcional: verifica que los campos estén en su valor por defecto
+        assertThat(emocion.getId()).isNull();
+        assertThat(emocion.getUsuario()).isNull();
+        assertThat(emocion.getListaDiario()).isEmpty();
     }
 }
