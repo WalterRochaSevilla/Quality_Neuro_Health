@@ -13,12 +13,15 @@ import java.util.stream.Collectors;
 @Service
 public class EmocionService {
 
-    @Autowired
-    private EmocionRepository emocionRepository;
+    private final EmocionRepository emocionRepository;
+    private final UsuarioService usuarioService;
 
+    // Constructor para inyección de dependencias (usado por Spring y tests)
     @Autowired
-    private UsuarioService usuarioService;
-
+    public EmocionService(EmocionRepository emocionRepository, UsuarioService usuarioService) {
+        this.emocionRepository = emocionRepository;
+        this.usuarioService = usuarioService;
+    }
     public Map<String, Object> escribirEnDiario(String usuarioId, String contenido, String emocion) {
 
         Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);
