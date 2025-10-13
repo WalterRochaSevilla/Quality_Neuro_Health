@@ -13,12 +13,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -164,6 +165,146 @@ class CitaServiceTest {
 
         verify(usuarioRepository).findById("99");
         verify(emailService, never()).sendEmail(anyString(), anyString(), anyString());
+    }
+    // Test UNITARIO de obtenerCitas 
+    @Test
+    void cuandoObtenerCitas_entoncesRetornaListaDeCitasMapeadas() throws Exception {
+        Cita cita = new Cita("1", "2", "2025-10-15", "10:30");
+        cita.setId("100");
+        when(citaRepository.findAll()).thenReturn(List.of(cita));
+        Usuario usuario = new Usuario();
+        usuario.setId("1");
+        usuario.setNombre("Carlos");
+        usuario.setApellido("Pérez");
+        Usuario especialista = new Usuario();
+        especialista.setId("2");
+        especialista.setNombre("Ana");
+        especialista.setApellido("López");
+        when(usuarioRepository.findById("1")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findById("2")).thenReturn(Optional.of(especialista));
+        List<Map<String, Object>> resultado = citaService.obtenerCitas();
+        assertThat(resultado).hasSize(1);
+        Map<String, Object> citaMapeada = resultado.get(0);
+        assertThat(citaMapeada)
+            .containsEntry("id", "100")
+            .containsEntry("usuarioId", "1")
+            .containsEntry("especialistaId", "2")
+            .containsEntry("fecha", "2025-10-15")
+            .containsEntry("hora", "10:30")
+            .containsEntry("especialistaNombre", "Ana López")
+            .containsEntry("estado", "Activo")
+            .containsEntry("usuario", "Carlos Pérez");
+
+        verify(citaRepository).findAll();
+        verify(usuarioRepository, times(2)).findById(anyString());
+    }
+    //Test UNITARIO de obtenerCitasUsuario
+    @Test
+    void cuandoObtenerCitasPorUsuario_entoncesRetornaListaDeCitas() {
+        // Given
+        String usuarioId = "1";
+        when(citaRepository.findByUsuarioId(usuarioId)).thenReturn(List.of(citaMock));
+
+        // When
+        List<Cita> resultado = citaService.obtenerCitasPorUsuario(usuarioId);
+
+        // Then
+        assertThat(resultado).containsExactly(citaMock);
+        verify(citaRepository).findByUsuarioId(usuarioId);
+    }
+    //obtenerCitasEspecialista
+    @Test
+    void cuandoObtenerCitasPorEspecialista_entoncesLlamaRepositorioYRetornaStream() {
+        // Given
+        String especialistaId = "2";
+        List<Cita> citas = List.of(citaMock);
+        when(citaRepository.findByEspecialistaId(especialistaId)).thenReturn(citas);
+
+        // When
+        List<Map<String, Object>> resultado = citaService.obtenerCitasPorEspecialista(especialistaId);
+
+        // Then
+        assertThat(resultado).isNotNull();
+        verify(citaRepository).findByEspecialistaId(especialistaId);
+    }
+    // Test específico para mapearCitaBasica - Caso normal
+    // Test 1: Happypath I → 1 → 2 → 3 → 4 → 5a → 6
+    @Test
+    void cuandoMapearCitaBasicaConEspecialistaId_entoncesMapaContieneClaveUsuario() throws Exception {
+        // Given: Cita CON especialistaId
+        Cita cita = new Cita("1", "2", "2025-10-15", "10:30"); // especialistaId = "2"
+        cita.setId("100");
+        
+        Usuario usuario = new Usuario();
+        usuario.setId("1");
+        usuario.setNombre("Carlos");
+        usuario.setApellido("Pérez");
+        
+        when(usuarioRepository.findById("1")).thenReturn(Optional.of(usuario));
+
+        // When & Then: Debe usar clave "usuario"
+        Method method = CitaService.class.getDeclaredMethod("mapearCitaBasica", Cita.class);
+        method.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> resultado = (Map<String, Object>) method.invoke(citaService, cita);
+
+        assertThat(resultado).containsEntry("usuario", "Carlos Pérez");
+        assertThat(resultado).doesNotContainKey("pacienteNombre");
+    }
+
+    // Test 2: Cuando especialistaId ES null → usa "pacienteNombre"  I → 1 → 2 → 3 → 4 → 5b → 6
+    @Test
+    void cuandoMapearCitaBasicaSinEspecialistaId_entoncesMapaContieneClavePacienteNombre() throws Exception {
+        // Given: Cita SIN especialistaId
+        Cita cita = new Cita("1", null, "2025-10-15", "10:30"); // especialistaId = null
+        cita.setId("100");
+        
+        Usuario usuario = new Usuario();
+        usuario.setId("1");
+        usuario.setNombre("Carlos");
+        usuario.setApellido("Pérez");
+        
+        when(usuarioRepository.findById("1")).thenReturn(Optional.of(usuario));
+
+        // When & Then: Debe usar clave "pacienteNombre"
+        Method method = CitaService.class.getDeclaredMethod("mapearCitaBasica", Cita.class);
+        method.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> resultado = (Map<String, Object>) method.invoke(citaService, cita);
+
+        assertThat(resultado).containsEntry("pacienteNombre", "Carlos Pérez");
+        assertThat(resultado).doesNotContainKey("usuario");
+    }
+
+    // Test específico para mapearCitaConDetalles - Solo estructura básica
+    @Test
+    void cuandoMapearCitaConDetalles_entoncesRetornaMapaConCamposAdicionales() throws Exception {
+        // Given
+        Cita cita = new Cita("1", "2", "2025-10-15", "10:30");
+        cita.setId("100");
+        
+        Usuario usuario = new Usuario();
+        usuario.setId("1");
+        usuario.setNombre("Carlos");
+        usuario.setApellido("Pérez");
+        
+        Usuario especialista = new Usuario();
+        especialista.setId("2");
+        especialista.setNombre("Ana");
+        especialista.setApellido("García");
+        
+        when(usuarioRepository.findById("1")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findById("2")).thenReturn(Optional.of(especialista));
+
+        // When
+        Method method = CitaService.class.getDeclaredMethod("mapearCitaConDetalles", Cita.class);
+        method.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> resultado = (Map<String, Object>) method.invoke(citaService, cita);
+
+        // Then - Solo verifica que tiene los campos adicionales
+        assertThat(resultado)
+            .containsKeys("especialistaNombre", "estado");
     }
 
 }
