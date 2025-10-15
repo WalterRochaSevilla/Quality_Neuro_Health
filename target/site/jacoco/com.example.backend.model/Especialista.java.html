@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Especialista.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">com.example.backend.model</a> &gt; <span class="el_source">Especialista.java</span></div><h1>Especialista.java</h1><pre class="source lang-java linenums">package com.example.backend.model;
+
+import lombok.Builder;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Document(collection = &quot;especialistasHorario&quot;)
+public class Especialista {
+
+    @Id
+    private String id;
+    private String name;
+    private String speciality;
+    private List&lt;String&gt; hours;
+    private Map&lt;String, List&lt;String&gt;&gt; occupiedHours;
+<span class="pc" id="L20">    private List&lt;String&gt; patients = new ArrayList&lt;&gt;();</span>
+    private String especialistaId;
+
+
+    // Constructores
+<span class="fc" id="L25">    public Especialista() {}</span>
+
+<span class="nc" id="L27">    public Especialista(String name, String speciality, List&lt;String&gt; hours, Map&lt;String, List&lt;String&gt;&gt; occupiedHours, List&lt;String&gt; patients, String especialistaId) {</span>
+<span class="nc" id="L28">        this.name = name;</span>
+<span class="nc" id="L29">        this.speciality = speciality;</span>
+<span class="nc" id="L30">        this.hours = hours;</span>
+<span class="nc" id="L31">        this.occupiedHours = occupiedHours;</span>
+<span class="nc" id="L32">        this.patients = patients;</span>
+<span class="nc" id="L33">        this.especialistaId = especialistaId;</span>
+<span class="nc" id="L34">    }</span>
+
+    // Getters y Setters
+    public String getId() {
+<span class="nc" id="L38">        return id;</span>
+    }
+
+    public void setId(String id) {
+<span class="nc" id="L42">        this.id = id;</span>
+<span class="nc" id="L43">    }</span>
+
+    public String getName() {
+<span class="fc" id="L46">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L50">        this.name = name;</span>
+<span class="fc" id="L51">    }</span>
+
+    public String getSpeciality() {
+<span class="nc" id="L54">        return speciality;</span>
+    }
+
+    public void setSpeciality(String speciality) {
+<span class="nc" id="L58">        this.speciality = speciality;</span>
+<span class="nc" id="L59">    }</span>
+
+    public List&lt;String&gt; getHours() {
+<span class="nc" id="L62">        return hours;</span>
+    }
+
+    public void setHours(List&lt;String&gt; hours) {
+<span class="nc" id="L66">        this.hours = hours;</span>
+<span class="nc" id="L67">    }</span>
+
+    public Map&lt;String, List&lt;String&gt;&gt; getOccupiedHours() {
+<span class="nc" id="L70">        return occupiedHours;</span>
+    }
+
+    public void setOccupiedHours(Map&lt;String, List&lt;String&gt;&gt; occupiedHours) {
+<span class="nc" id="L74">        this.occupiedHours = occupiedHours;</span>
+<span class="nc" id="L75">    }</span>
+
+<span class="nc" id="L77">    public List&lt;String&gt; getPatients() {return patients;}</span>
+<span class="nc" id="L78">    public void setPatients(List&lt;String&gt; patients) {this.patients = patients;}</span>
+
+<span class="fc" id="L80">    public String getEspecialistaId() {return especialistaId;}</span>
+<span class="fc" id="L81">    public void setEspecialistaId(String especialistaId) {this.especialistaId = especialistaId;}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Usuario.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">com.example.backend.model</a> &gt; <span class="el_source">Usuario.java</span></div><h1>Usuario.java</h1><pre class="source lang-java linenums">package com.example.backend.model;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = &quot;users&quot;)
+@TypeAlias(&quot;usuario&quot;)
+public class Usuario {
+    @Id
+    private String id;
+    private String nombre;
+    private String apellido;
+    private String email;
+    private String contrasena;
+    private String fechaRegistro;
+    private String rol;
+
+    // Constructor, getters y setters
+<span class="fc" id="L20">    public Usuario() {}</span>
+
+<span class="nc" id="L22">    public Usuario(String nombre,String apellido, String email, String contrasena, String fechaRegistro, String rol) {</span>
+<span class="nc" id="L23">        this.nombre = nombre;</span>
+<span class="nc" id="L24">        this.apellido = apellido;</span>
+<span class="nc" id="L25">        this.email = email;</span>
+<span class="nc" id="L26">        this.contrasena = contrasena;</span>
+<span class="nc" id="L27">        this.fechaRegistro = fechaRegistro;</span>
+<span class="nc" id="L28">        this.rol = rol;</span>
+<span class="nc" id="L29">    }</span>
+
+<span class="nc" id="L31">    public Usuario(String email, String contrasena) {</span>
+<span class="nc" id="L32">        this.email = email;</span>
+<span class="nc" id="L33">        this.contrasena = contrasena;</span>
+<span class="nc" id="L34">    }</span>
+
+<span class="nc" id="L36">    public String getId() { return id; }</span>
+<span class="fc" id="L37">    public void setId(String id) { this.id = id; }</span>
+<span class="fc" id="L38">    public String getNombre() { return nombre; }</span>
+<span class="fc" id="L39">    public void setNombre(String nombre) { this.nombre = nombre; }</span>
+<span class="fc" id="L40">    public String getEmail() { return email; }</span>
+<span class="fc" id="L41">    public void setEmail(String email) { this.email = email; }</span>
+<span class="nc" id="L42">    public String getContrasena() { return contrasena; }</span>
+<span class="fc" id="L43">    public void setContrasena(String contrasena) { this.contrasena = contrasena; }</span>
+<span class="nc" id="L44">    public String getFechaRegistro() { return fechaRegistro; }</span>
+<span class="nc" id="L45">    public void setFechaRegistro(String fechaRegistro) { this.fechaRegistro = fechaRegistro; }</span>
+<span class="nc" id="L46">    public String getRol() { return rol; }</span>
+<span class="fc" id="L47">    public void setRol(String rol) { this.rol = rol; }</span>
+<span class="nc" id="L48">    public String getApellido() { return apellido; }</span>
+<span class="fc" id="L49">    public void setApellido(String apellido) { this.apellido = apellido; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
