@@ -153,10 +153,9 @@ class UsuarioServiceTest {
         
         verify(usuarioRepository).findById(usuarioId);
     }
-    
+
     @Test
     void obtenerTodos_WhenUsersExist_ShouldReturnUserList() {
-        // Arrange
         Usuario usuario1 = new Usuario();
         usuario1.setId("1");
         usuario1.setNombre("Juan Perez");
@@ -171,15 +170,12 @@ class UsuarioServiceTest {
         
         when(usuarioRepository.findAll()).thenReturn(usuariosMock);
 
-        // Act
         List<Usuario> resultado = usuarioService.obtenerTodos();
 
-        // Assert
         assertThat(resultado).isNotNull();
         assertThat(resultado).hasSize(2);
         assertThat(resultado).containsExactly(usuario1, usuario2);
         
-        // Verify
         verify(usuarioRepository).findAll();
     }
 
