@@ -1,0 +1,8 @@
+com\example\backend\controller\EspecialistaControllerTest.class
+com\example\backend\controller\ExamenControllerTest.class
+com\example\backend\service\UsuarioServiceTest1.class
+com\example\backend\controller\ForoControllerTest.class
+com\example\backend\controller\CitaControllerTest.class
+com\example\backend\controller\EmocionControllerTest.class
+com\example\backend\controller\UsuarioControllerTest.class
+com\example\backend\service\ForoServiceTest.class

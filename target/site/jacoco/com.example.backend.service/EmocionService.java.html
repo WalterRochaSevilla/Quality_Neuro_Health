@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmocionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">com.example.backend.service</a> &gt; <span class="el_source">EmocionService.java</span></div><h1>EmocionService.java</h1><pre class="source lang-java linenums">package com.example.backend.service;
+
+import com.example.backend.model.Emocion;
+import com.example.backend.model.Usuario;
+import com.example.backend.repository.EmocionRepository;
+import com.example.backend.exception.UsuarioNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Service
+public class EmocionService {
+
+    private final EmocionRepository emocionRepository;
+    private final UsuarioService usuarioService;
+
+    // Constructor para inyección de dependencias (usado por Spring y tests)
+    @Autowired
+<span class="nc" id="L21">    public EmocionService(EmocionRepository emocionRepository, UsuarioService usuarioService) {</span>
+<span class="nc" id="L22">        this.emocionRepository = emocionRepository;</span>
+<span class="nc" id="L23">        this.usuarioService = usuarioService;</span>
+<span class="nc" id="L24">    }</span>
+    public Map&lt;String, Object&gt; escribirEnDiario(String usuarioId, String contenido, String emocion) {
+
+<span class="nc" id="L27">        Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (usuario == null) {</span>
+<span class="nc" id="L29">            throw new UsuarioNotFoundException(&quot;Usuario con id &quot; + usuarioId + &quot; no encontrado&quot;);</span>
+        }
+
+<span class="nc" id="L32">        Emocion diario = emocionRepository.findByUsuario_Id(usuarioId)</span>
+<span class="nc" id="L33">                .orElseGet(() -&gt; {</span>
+<span class="nc" id="L34">                    Emocion nuevoDiario = new Emocion(usuario);</span>
+<span class="nc" id="L35">                    nuevoDiario.setUsuario(usuario);</span>
+<span class="nc" id="L36">                    return emocionRepository.save(nuevoDiario);</span>
+                });
+
+<span class="nc" id="L39">        diario.setListaDiario(contenido, emocion);</span>
+<span class="nc" id="L40">        emocionRepository.save(diario);</span>
+
+<span class="nc" id="L42">        Map&lt;String, Object&gt; respuesta = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L43">        respuesta.put(&quot;id&quot;, diario.getId());</span>
+<span class="nc" id="L44">        respuesta.put(&quot;usuarioId&quot;, usuarioId);</span>
+<span class="nc" id="L45">        return respuesta;</span>
+    }
+
+    public Map&lt;String, Object&gt; obtenerDiarioCompleto(String usuarioId) {
+<span class="nc" id="L49">        Emocion diario = emocionRepository.findByUsuario_Id(usuarioId)</span>
+<span class="nc" id="L50">                .orElseThrow(() -&gt; new RuntimeException(&quot;Diario no encontrado&quot;));</span>
+
+        // Ordenar las entradas por fecha de publicación (más reciente primero)
+<span class="nc" id="L53">        List&lt;Emocion.ListaDiario&gt; entradasOrdenadas = diario.getListaDiario().stream()</span>
+<span class="nc" id="L54">                .sorted((e1, e2) -&gt; e2.getFechaPublicacion().compareTo(e1.getFechaPublicacion()))</span>
+<span class="nc" id="L55">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L57">        Map&lt;String, Object&gt; respuesta = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L58">        respuesta.put(&quot;id&quot;, diario.getId());</span>
+<span class="nc" id="L59">        respuesta.put(&quot;usuarioId&quot;, diario.getUsuario().getId());</span>
+
+<span class="nc" id="L61">        List&lt;Map&lt;String, Object&gt;&gt; entradasMapeadas = entradasOrdenadas.stream()</span>
+<span class="nc" id="L62">                .map(entrada -&gt; {</span>
+<span class="nc" id="L63">                    Map&lt;String, Object&gt; entradaMap = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L64">                    entradaMap.put(&quot;type&quot;, entrada.getType());</span>
+<span class="nc" id="L65">                    entradaMap.put(&quot;emotion&quot;, entrada.getEmocion());</span>
+<span class="nc" id="L66">                    entradaMap.put(&quot;notes&quot;, entrada.getContenido());</span>
+<span class="nc" id="L67">                    entradaMap.put(&quot;date&quot;, entrada.getFechaPublicacion());</span>
+<span class="nc" id="L68">                    return entradaMap;</span>
+                })
+<span class="nc" id="L70">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L72">        respuesta.put(&quot;entries&quot;, entradasMapeadas);</span>
+<span class="nc" id="L73">        return respuesta;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

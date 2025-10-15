@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">com.example.backend.service</a> &gt; <span class="el_source">UsuarioService.java</span></div><h1>UsuarioService.java</h1><pre class="source lang-java linenums">package com.example.backend.service;
+
+import com.example.backend.model.Usuario;
+import com.example.backend.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.example.backend.exception.UsuarioAlreadyExistsException;
+
+import java.util.List;
+import java.time.Instant;
+import java.util.Optional;
+
+
+@Service
+<span class="nc" id="L15">public class UsuarioService {</span>
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    public List&lt;Usuario&gt; obtenerTodos() {
+<span class="nc" id="L21">        return usuarioRepository.findAll();</span>
+    }
+
+    public Usuario registrarUsuario(String nombre, String apellido, String email, String contrasena, String rol) {
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (usuarioRepository.findByEmail(email) != null) {</span>
+<span class="nc" id="L26">            throw new UsuarioAlreadyExistsException(&quot;El correo ya está registrado.&quot;);</span>
+        }
+
+<span class="nc" id="L29">        Usuario usuario = new Usuario();</span>
+<span class="nc" id="L30">        usuario.setNombre(nombre + &quot; &quot; + apellido); // Concatenar nombre y apellido</span>
+<span class="nc" id="L31">        usuario.setEmail(email);</span>
+<span class="nc" id="L32">        usuario.setContrasena(contrasena);</span>
+<span class="nc" id="L33">        usuario.setFechaRegistro(Instant.now().toString());</span>
+<span class="nc" id="L34">        usuario.setRol(rol);</span>
+
+<span class="nc" id="L36">        return usuarioRepository.save(usuario);</span>
+    }
+
+    public Usuario iniciarSesion(String email, String contrasena) {
+<span class="nc" id="L40">        Usuario usuario = usuarioRepository.findByEmail(email);</span>
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        if (usuario != null &amp;&amp; usuario.getContrasena().equals(contrasena)) {</span>
+<span class="nc" id="L42">            return usuario;</span>
+        }
+<span class="nc" id="L44">        return null;</span>
+    }
+
+    public Usuario obtenerUsuarioPorId(String id) {
+<span class="nc" id="L48">        Optional&lt;Usuario&gt; usuario = usuarioRepository.findById(id);</span>
+<span class="nc" id="L49">        return usuario.orElse(null);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

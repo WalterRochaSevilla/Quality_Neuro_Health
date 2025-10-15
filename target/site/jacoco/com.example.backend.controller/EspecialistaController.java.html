@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EspecialistaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">com.example.backend.controller</a> &gt; <span class="el_source">EspecialistaController.java</span></div><h1>EspecialistaController.java</h1><pre class="source lang-java linenums">package com.example.backend.controller;
+
+import com.example.backend.model.Especialista;
+import com.example.backend.model.Usuario;
+import com.example.backend.repository.EspecialistaRepository;
+import com.example.backend.service.EspecialistaService;
+import com.example.backend.service.EmailService;
+import com.example.backend.service.UsuarioService;
+import com.example.backend.service.CitaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@CrossOrigin(origins = &quot;http://localhost:4200&quot;)
+@RestController
+@RequestMapping(&quot;/api/especialistas&quot;)
+<span class="fc" id="L23">public class EspecialistaController {</span>
+
+<span class="fc" id="L25">    private static final Logger logger = LoggerFactory.getLogger(EspecialistaController.class);</span>
+
+    @Autowired
+    private EspecialistaService especialistaService;
+    @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private CitaService citaService;
+    @Autowired
+    private EspecialistaRepository especialistaRepository;
+
+    // Obtener todos los especialistas
+    @GetMapping
+    public ResponseEntity&lt;List&lt;Especialista&gt;&gt; getAllEspecialistas() {
+<span class="fc" id="L41">        return ResponseEntity.ok(especialistaService.getAllEspecialistas());</span>
+    }
+
+    // Obtener horarios de un especialista por ID
+    @GetMapping(&quot;/{id}/horarios&quot;)
+    public ResponseEntity&lt;Map&lt;String, List&lt;String&gt;&gt;&gt; getHorariosByEspecialistaId(
+            @PathVariable String id,
+            @RequestParam String fecha) {
+<span class="fc" id="L49">        return ResponseEntity.ok(especialistaService.getHorariosByEspecialistaId(id, fecha));</span>
+    }
+
+    @PutMapping(&quot;/{id}/ocupar-hora&quot;)
+    public ResponseEntity&lt;Map&lt;String, String&gt;&gt; ocuparHora(@PathVariable String id, @RequestBody Map&lt;String, String&gt; body) {
+<span class="fc" id="L54">        String hour = body.get(&quot;hour&quot;);</span>
+<span class="fc" id="L55">        String fecha = body.get(&quot;fecha&quot;);</span>
+<span class="fc" id="L56">        String userId = body.get(&quot;userId&quot;);</span>
+
+<span class="fc" id="L58">        Usuario usuario = usuarioService.obtenerUsuarioPorId(userId);</span>
+<span class="fc" id="L59">        Optional&lt;Especialista&gt; doctor = especialistaRepository.findById(id);</span>
+
+<span class="fc" id="L61">        boolean success = especialistaService.addOccupiedHour(id, hour, fecha);</span>
+<span class="fc" id="L62">        especialistaService.addPatient(id, userId);</span>
+
+<span class="fc" id="L64">        doctor.ifPresent(d -&gt; logger.info(&quot;Especialista ID: {}&quot;, d.getEspecialistaId()));</span>
+
+<span class="fc" id="L66">        citaService.crearCita(userId, doctor.map(Especialista::getEspecialistaId).orElse(null), fecha, hour);</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (success) {</span>
+            try {
+<span class="fc" id="L70">                emailService.sendEmail(</span>
+<span class="fc" id="L71">                        usuario.getEmail(),</span>
+                        &quot;Cita Confirmada&quot;,
+<span class="fc" id="L73">                        &quot;&lt;h1&gt;Hola &quot; + usuario.getNombre() + &quot;!&lt;/h1&gt;&lt;p&gt;Tu cita con &quot;</span>
+<span class="fc" id="L74">                                + doctor.map(Especialista::getName).orElse(&quot;el especialista&quot;)</span>
+                                + &quot; a las &quot; + hour + &quot; el día &quot; + fecha + &quot; fue confirmada.&lt;/p&gt;&quot;
+                );
+<span class="fc" id="L77">            } catch (Exception e) {</span>
+<span class="fc" id="L78">                logger.error(&quot;Error al enviar el correo: {}&quot;, e.getMessage(), e);</span>
+<span class="fc" id="L79">            }</span>
+<span class="fc" id="L80">            return ResponseEntity.ok(Map.of(&quot;message&quot;, &quot;Hora ocupada con éxito&quot;));</span>
+        } else {
+<span class="fc" id="L82">            return ResponseEntity.badRequest().body(Map.of(&quot;message&quot;, &quot;No se pudo ocupar la hora&quot;));</span>
+        }
+    }
+
+    @GetMapping(&quot;/{id}/patients&quot;)
+    public List&lt;Map&lt;String, String&gt;&gt; getPatientsByEspecialistaId(@PathVariable(&quot;id&quot;) String especialistaId) {
+<span class="fc" id="L88">        return especialistaService.getPatientsByEspecialistaId(especialistaId);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

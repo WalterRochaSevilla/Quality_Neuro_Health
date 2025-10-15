@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cita.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">com.example.backend.model</a> &gt; <span class="el_source">Cita.java</span></div><h1>Cita.java</h1><pre class="source lang-java linenums">package com.example.backend.model;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
+
+@Document(collection = &quot;citas&quot;)
+public class Cita {
+
+    @Id
+    private String id;
+    private String usuarioId;
+    private String especialistaId;
+    private String fecha; // formato: &quot;YYYY-MM-DD&quot;
+    private String hora;  // formato: &quot;HH:mm&quot;
+
+    // Constructor vacío
+<span class="fc" id="L20">    public Cita() {}</span>
+
+    // Constructor con parámetros
+<span class="nc" id="L23">    public Cita(String usuarioId, String especialistaId, String fecha, String hora) {</span>
+<span class="nc" id="L24">        this.usuarioId = usuarioId;</span>
+<span class="nc" id="L25">        this.especialistaId = especialistaId;</span>
+<span class="nc" id="L26">        this.fecha = fecha;</span>
+<span class="nc" id="L27">        this.hora = hora;</span>
+<span class="nc" id="L28">    }</span>
+
+    // Getters y setters
+<span class="fc" id="L31">    public String getId() { return id; }</span>
+
+<span class="fc" id="L33">    public void setId(String id) { this.id = id; }</span>
+
+<span class="fc" id="L35">    public String getUsuarioId() { return usuarioId; }</span>
+
+<span class="fc" id="L37">    public void setUsuarioId(String usuarioId) { this.usuarioId = usuarioId; }</span>
+
+<span class="fc" id="L39">    public String getEspecialistaId() { return especialistaId; }</span>
+
+<span class="fc" id="L41">    public void setEspecialistaId(String especialistaId) { this.especialistaId = especialistaId; }</span>
+
+<span class="fc" id="L43">    public String getFecha() { return fecha; }</span>
+
+<span class="fc" id="L45">    public void setFecha(String fecha) { this.fecha = fecha; }</span>
+
+<span class="fc" id="L47">    public String getHora() { return hora; }</span>
+
+<span class="fc" id="L49">    public void setHora(String hora) { this.hora = hora; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

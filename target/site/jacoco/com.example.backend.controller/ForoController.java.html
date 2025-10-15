@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ForoController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">backend</a> &gt; <a href="index.source.html" class="el_package">com.example.backend.controller</a> &gt; <span class="el_source">ForoController.java</span></div><h1>ForoController.java</h1><pre class="source lang-java linenums">package com.example.backend.controller;
+
+import com.example.backend.model.Comentario;
+import com.example.backend.model.Publicacion;
+import com.example.backend.model.Usuario;
+import com.example.backend.service.ForoService;
+import com.example.backend.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
+
+@CrossOrigin(origins = &quot;http://localhost:4200&quot;)
+@RestController
+@RequestMapping(&quot;/foro&quot;)
+<span class="fc" id="L20">public class ForoController {</span>
+
+    @Autowired
+    private ForoService foroService;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @PostMapping(&quot;/publicaciones&quot;)
+    public ResponseEntity&lt;?&gt; crearPublicacion(@RequestBody Map&lt;String, String&gt; request) {
+<span class="fc" id="L30">        String usuarioId = request.get(&quot;usuarioId&quot;);</span>
+<span class="fc" id="L31">        String titulo = request.get(&quot;titulo&quot;);</span>
+<span class="fc" id="L32">        String contenido = request.get(&quot;contenido&quot;);</span>
+<span class="fc" id="L33">        String tema = request.get(&quot;tema&quot;);</span>
+
+<span class="fc" id="L35">        Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioId);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (usuario == null) {</span>
+<span class="fc" id="L37">            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;Usuario no encontrado con ID: &quot; + usuarioId);</span>
+        }
+
+        try {
+<span class="fc" id="L41">            Publicacion publicacion = foroService.crearPublicacion(usuarioId, titulo, contenido, tema);</span>
+
+<span class="fc" id="L43">            Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L44">            response.put(&quot;id&quot;, publicacion.getId());</span>
+<span class="fc" id="L45">            response.put(&quot;titulo&quot;, publicacion.getTitulo());</span>
+<span class="fc" id="L46">            response.put(&quot;contenido&quot;, publicacion.getContenido());</span>
+<span class="fc" id="L47">            response.put(&quot;fechaPublicacion&quot;, publicacion.getFechaPublicacion());</span>
+<span class="fc" id="L48">            response.put(&quot;usuario&quot;, usuario.getNombre());</span>
+
+<span class="fc" id="L50">            return ResponseEntity.ok(response);</span>
+<span class="fc" id="L51">        } catch (Exception e) {</span>
+<span class="fc" id="L52">            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)</span>
+<span class="fc" id="L53">                    .body(&quot;Error al crear publicación: &quot; + e.getMessage());</span>
+        }
+    }
+
+    @GetMapping(&quot;/publicaciones&quot;)
+    public ResponseEntity&lt;List&lt;Map&lt;String, Object&gt;&gt;&gt; obtenerTodasPublicaciones() {
+<span class="fc" id="L59">        return ResponseEntity.ok(foroService.obtenerTodasPublicaciones());</span>
+    }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
