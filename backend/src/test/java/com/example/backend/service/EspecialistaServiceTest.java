@@ -274,52 +274,5 @@ void getPatientsByEspecialistaId_WhenEspecialistaExistsWithPatients_ShouldReturn
     verify(usuarioRepository).findAllById(List.of("user1", "user2"));
 }
 
-// // Test para getPatientsByEspecialistaId - Especialista existe pero sin pacientes
-// @Test
-// void getPatientsByEspecialistaId_WhenEspecialistaExistsWithoutPatients_ShouldReturnEmptyList() {
-//     // Arrange
-//     String especialistaId = "1";
-    
-//     Especialista especialistaMock = new Especialista();
-//     especialistaMock.setId(especialistaId);
-//     especialistaMock.setPatients(new ArrayList<>()); // Lista vacía
-    
-//     when(especialistaRepository.findByEspecialistaId(especialistaId)).thenReturn(Optional.of(especialistaMock));
 
-//     // Act
-//     List<Map<String, String>> resultado = especialistaService.getPatientsByEspecialistaId(especialistaId);
-
-//     // Assert
-//     assertThat(resultado).isNotNull();
-//     assertThat(resultado).isEmpty();
-
-//     // Verify
-//     verify(especialistaRepository).findByEspecialistaId(especialistaId);
-//     verify(usuarioRepository, never()).findAllById(any());
-// }
-
-// // Test para getPatientsByEspecialistaId - Especialista existe pero usuarios no encontrados
-// @Test
-// void getPatientsByEspecialistaId_WhenEspecialistaExistsButUsersNotFound_ShouldReturnEmptyPatientInfo() {
-//     // Arrange
-//     String especialistaId = "1";
-    
-//     Especialista especialistaMock = new Especialista();
-//     especialistaMock.setId(especialistaId);
-//     especialistaMock.setPatients(List.of("user1", "user2"));
-    
-//     when(especialistaRepository.findByEspecialistaId(especialistaId)).thenReturn(Optional.of(especialistaMock));
-//     when(usuarioRepository.findAllById(List.of("user1", "user2"))).thenReturn(List.of()); // Usuarios no encontrados
-
-//     // Act
-//     List<Map<String, String>> resultado = especialistaService.getPatientsByEspecialistaId(especialistaId);
-
-//     // Assert
-//     assertThat(resultado).isNotNull();
-//     assertThat(resultado).isEmpty(); // Lista vacía porque no se encontraron usuarios
-
-//     // Verify
-//     verify(especialistaRepository).findByEspecialistaId(especialistaId);
-//     verify(usuarioRepository).findAllById(List.of("user1", "user2"));
-// }
 }
