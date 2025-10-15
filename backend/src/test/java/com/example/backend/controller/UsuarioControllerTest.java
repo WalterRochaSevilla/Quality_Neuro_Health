@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
@@ -89,13 +90,16 @@ class UsuarioControllerTest {
         datos.put("nombre", "Fernando");
         datos.put("email", "fernando@example.com");
 
-        when(usuarioService.registrarUsuario(anyString(), anyString(), anyString(), anyString(), anyString()))
+        // 👇 Usamos any() en lugar de anyString() para permitir valores null
+        when(usuarioService.registrarUsuario(any(), any(), any(), any(), any()))
                 .thenThrow(new RuntimeException("Email ya registrado"));
 
         ResponseEntity<?> respuesta = usuarioController.registrarUsuario(datos);
 
         assertEquals(HttpStatus.BAD_REQUEST, respuesta.getStatusCode());
         assertEquals("Email ya registrado", respuesta.getBody());
+
+        // Verificamos que no se intentó enviar correo
         verify(emailService, never()).sendEmail(anyString(), anyString(), anyString());
     }
 
@@ -143,5 +147,53 @@ class UsuarioControllerTest {
         assertEquals(HttpStatus.CREATED, respuesta.getStatusCode());
         assertTrue(respuesta.getBody() instanceof Usuario);
         verify(emailService, times(1)).sendEmail(anyString(), anyString(), anyString());
+    }
+    @Test
+    void registrarUsuario_usuarioSinEmail_noEnviaCorreo() throws Exception {
+        Map<String, String> datos = new HashMap<>();
+        datos.put("nombre", "Fernando");
+        datos.put("apellido", "Rodriguez");
+        datos.put("email", null); // 👈 simulamos email nulo
+        datos.put("contrasena", "1234");
+
+        // Retornamos un usuario con email nulo
+        Usuario usuarioSinEmail = new Usuario();
+        usuarioSinEmail.setId("2");
+        usuarioSinEmail.setNombre("Fernando");
+        usuarioSinEmail.setEmail(null);
+
+        when(usuarioService.registrarUsuario(any(), any(), any(), any(), any()))
+                .thenReturn(usuarioSinEmail);
+
+        ResponseEntity<?> respuesta = usuarioController.registrarUsuario(datos);
+
+        // Debe retornar 201 CREATED igual, porque el catch no se activa
+        assertEquals(HttpStatus.CREATED, respuesta.getStatusCode());
+        assertTrue(respuesta.getBody() instanceof Usuario);
+
+        // Pero no se debe intentar enviar el correo
+        verify(emailService, never()).sendEmail(anyString(), anyString(), anyString());
+    }
+    // ⚠️ Caso: usuario nulo → no se envía correo y no lanza excepción
+    @Test
+    void registrarUsuario_usuarioNulo_noEnviaCorreo() throws Exception {
+        Map<String, String> datos = new HashMap<>();
+        datos.put("nombre", "Fernando");
+        datos.put("apellido", "Rodriguez");
+        datos.put("email", "fernando@example.com");
+        datos.put("contrasena", "1234");
+
+        // Simulamos que el servicio devuelve null
+        when(usuarioService.registrarUsuario(any(), any(), any(), any(), any()))
+                .thenReturn(null);
+
+        ResponseEntity<?> respuesta = usuarioController.registrarUsuario(datos);
+
+        // El método igual debería responder 201 (porque no lanza excepción)
+        assertEquals(HttpStatus.CREATED, respuesta.getStatusCode());
+        assertNull(respuesta.getBody()); // El usuario devuelto es null
+
+        // Verificamos que no se intentó enviar correo
+        verify(emailService, never()).sendEmail(anyString(), anyString(), anyString());
     }
 }

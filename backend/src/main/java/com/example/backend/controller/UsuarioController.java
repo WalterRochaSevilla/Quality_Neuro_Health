@@ -52,6 +52,11 @@ public class UsuarioController {
 
     // 🔹 Método extraído para resolver el "nested try block"
     private void enviarCorreoBienvenida(Usuario usuario) {
+        if (usuario == null || usuario.getEmail() == null) {
+            logger.warn("No se pudo enviar correo de bienvenida: usuario o email nulo.");
+            return;
+        }
+
         try {
             emailService.sendEmail(
                     usuario.getEmail(),
@@ -59,10 +64,10 @@ public class UsuarioController {
                     "<h1>Hola " + usuario.getNombre() + "!</h1><p>Tu cuenta ha sido creada con éxito.</p>"
             );
         } catch (Exception e) {
-            // 🔹 Reemplazo de System.err.println por logger
             logger.error("Error al enviar el correo: {}", e.getMessage(), e);
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<Usuario> iniciarSesion(@RequestParam String email, @RequestParam String contrasena) {
