@@ -37,24 +37,14 @@ public class CitaService {
     private EmailService emailService;
 
     public Cita crearCita(String usuarioId, String especialistaId, String fecha, String hora) {
-        // Verificamos si el usuario existe
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + usuarioId));
-
-        // Verificamos si el especialista existe (sin asignar a variable innecesaria)
         especialistaRepository.findByEspecialistaId(especialistaId)
                 .orElseThrow(() -> new RuntimeException("Especialista no encontrado con ID: " + especialistaId));
-
-        // Creamos y guardamos la cita
         Cita cita = new Cita(usuarioId, especialistaId, fecha, hora);
         Cita savedCita = citaRepository.save(cita);
-
-        // Programar recordatorio
         reminderService.scheduleReminderForAppointment(savedCita);
-
-        // Enviar confirmación por email
         enviarConfirmacionCita(usuario, especialistaId, fecha, hora, savedCita.getId());
-
         return savedCita;
     }
 
