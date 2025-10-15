@@ -27,7 +27,6 @@ class EmailServiceTest {
     // Test Case 1: CORREGIDO - Camino I→1→2→3→4→F (Éxito - email enviado correctamente)
     @Test
     void sendEmail_WhenValidParameters_ShouldSendEmailSuccessfully() throws Exception {
-        // Arrange
         String to = "test@example.com";
         String subject = "Test Subject";
         String body = "<p>This is a test email</p>";
@@ -36,10 +35,8 @@ class EmailServiceTest {
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
         doNothing().when(mailSender).send(any(MimeMessage.class));
 
-        // Act - SOLO UNA VEZ
         emailService.sendEmail(to, subject, body);
 
-        // Assert & Verify - Verificar que se siguieron todos los pasos del flujo
         verify(mailSender, times(1)).createMimeMessage();
         verify(mailSender, times(1)).send(any(MimeMessage.class));
     }
